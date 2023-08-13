@@ -16,19 +16,19 @@ import io.micrometer.common.util.StringUtils;
  * @author weiwei
  *
  */
-public class StaticGISDatasetReader {
+public class StaticGISDatasetAnalyzer {
 
 	private String filename;
 	private String filetype;
 	public final static String default_json_filename = "BusServiceStop";
 	public final static String default_filetype = "json";
 
-	public StaticGISDatasetReader() {
+	public StaticGISDatasetAnalyzer() {
 		this.filename = default_json_filename;
 		this.filetype = default_filetype;
 	}
 
-	public StaticGISDatasetReader(String filename, String filetype) {
+	public StaticGISDatasetAnalyzer(String filename, String filetype) {
 		if (!StringUtils.isBlank(filename)) {
 			this.filename = filename;
 		} else {
@@ -68,7 +68,7 @@ public class StaticGISDatasetReader {
 	}
 	
 	public static void main(String[] args) {
-		StaticGISDatasetReader read = new StaticGISDatasetReader();
+		StaticGISDatasetAnalyzer read = new StaticGISDatasetAnalyzer();
 		String data = read.readFileContent();
 		System.out.println(data);
 	}
