@@ -3,8 +3,22 @@
  */
 package com.atnetwork.utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,28 +37,82 @@ public class DynamicAPIReader {
 	private String apiUrl;
 	private String ret;
 	
+	public final static String default_busroute_url = "";
+	
 	public DynamicAPIReader() {		
 	}
 	
 	public DynamicAPIReader(String apiUrl) {
-		this.apiUrl = apiUrl;
+		if (!StringUtils.isBlank(apiUrl)) {
+			this.apiUrl = apiUrl;
+		}else {
+			this.apiUrl = default_busroute_url;
+		}
 	}
 	
-//	public <T> getDataFromApi(String apiUrl) {
-//		if (!StringUtils.isBlank(apiUrl)) {
-//			this.apiUrl = apiUrl;
-//		}
-//		
-//		RestTemplate rt = new RestTemplate();
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//        headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-//
-//        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-//        ResponseEntity<?> result =
-//                rt.exchange(this.apiUrl, HttpMethod.GET, entity, returnClass);
-//        return result.getBody();
-//	}
+	public void sendGET() throws IOException {
+
+		try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
+			HttpGet httpGet = new HttpGet(this.apiUrl);
+//		httpGet.addHeader("User-Agent", USER_AGENT);
+			CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+
+			System.out.println("GET Response Status:: " + httpResponse.getCode());
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = reader.readLine()) != null) {
+				response.append(inputLine);
+			}
+			reader.close();
+
+			// print result
+			System.out.println(response.toString());
+			
+			httpClient.close();
+		} catch (IOException e) {
+
+		}
+	}
+
+	public void sendPOST() throws IOException {
+
+		try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
+			HttpPost httpPost = new HttpPost(this.apiUrl);
+//		httpPost.addHeader("User-Agent", USER_AGENT);
+
+			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+			urlParameters.add(new BasicNameValuePair("OBJECTID", "Pankaj Kumar"));
+
+			UrlEncodedFormEntity postParams = new UrlEncodedFormEntity(urlParameters);
+			httpPost.setEntity(postParams);
+
+			CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
+
+			System.out.println("POST Response Status:: " + httpResponse.getCode());
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = reader.readLine()) != null) {
+				response.append(inputLine);
+			}
+			reader.close();
+
+			// print result
+			System.out.println(response.toString());
+			httpClient.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	
 	
 

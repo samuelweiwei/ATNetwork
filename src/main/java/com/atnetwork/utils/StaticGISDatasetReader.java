@@ -49,7 +49,11 @@ public class StaticGISDatasetReader {
 		}
 	}
 	
-	public String buildFile() {
+	/**
+	 * Download the file and write into local file
+	 * @return
+	 */
+	public void readDataToLocalFile() {
 		try {
 			URL url = this.getClass().getClassLoader().getResource(".");
 			System.out.println(url.toURI().getPath());
@@ -65,16 +69,29 @@ public class StaticGISDatasetReader {
 			BufferedInputStream bis = new BufferedInputStream(new URL(this.url).openStream());
 			
 			int available = bis.available();
+			byte[] total = new byte[available];
 			byte[] dataBuffer = new byte[available];
-			bis.read(dataBuffer);			
-			String st = new String(dataBuffer, StandardCharsets.UTF_8);
-			System.out.println(st);
-			bis.close();
-			
-			BufferedWriter bw = new BufferedWriter(new FileWriter(myf));
-			bw.write(st);
+			StringBuffer sb = new StringBuffer();
+			int i = 0;
+			BufferedWriter bw = new BufferedWriter(new FileWriter(myf, true));
+			while((bis.read(dataBuffer) != -1) && (i <= 1000)){
+				bis.read(dataBuffer);			
+				String st = new String(dataBuffer, StandardCharsets.UTF_8);
+				sb.append(st);
+				dataBuffer = new byte[bis.available()];
+				i++;
+//				System.out.println(st);
+				System.out.println("i is:"+i);
+				if (i == 1000) {
+					bw.write(sb.toString());
+//					bw.flush();
+					i = 0;
+					sb = new StringBuffer();
+				}
+			}
 			bw.flush();
 			bw.close();
+			bis.close();			
 			
 		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -82,20 +99,15 @@ public class StaticGISDatasetReader {
 		} finally {
 			
 		}
-		return null;
+		return;
 	}
 	
-	public String readData(String url){
-		if (!StringUtils.isBlank(url)) {
-			this.url = url;
-		}
-		
-		return null;
-	}
-	
-	
+	/**
+	 * Testing stub
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		StaticGISDatasetReader t = new StaticGISDatasetReader();
-		t.buildFile();
+		t.readDataToLocalFile();
 	}
 }
