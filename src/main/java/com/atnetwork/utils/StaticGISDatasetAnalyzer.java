@@ -20,7 +20,7 @@ public class StaticGISDatasetAnalyzer {
 
 	private String filename;
 	private String filetype;
-	public final static String default_json_filename = "BusServiceStop";
+	public final static String default_json_filename = "BusRoute";
 	public final static String default_filetype = "json";
 
 	public StaticGISDatasetAnalyzer() {
