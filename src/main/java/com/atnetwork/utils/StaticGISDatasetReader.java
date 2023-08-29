@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
@@ -28,8 +29,9 @@ public class StaticGISDatasetReader {
 	private String url;
 	private String localfilepath;
 	
-	public final static String default_local_path = "./";
-	public final static String default_url = "https://opendata.arcgis.com/api/v3/datasets/d5a4db7acb5a45a9a4f1bd08a3f0f0a6_2/downloads/data?format=geojson&spatialRefId=4326&where=1%3D1";
+	public final static String default_local_path = ".";
+//	public final static String default_url = "https://opendata.arcgis.com/api/v3/datasets/d5a4db7acb5a45a9a4f1bd08a3f0f0a6_2/downloads/data?format=geojson&spatialRefId=4326&where=1%3D1";
+	public final static String default_url = "https://gtfs.at.govt.nz/gtfs.zip";
 	
 	public StaticGISDatasetReader() {
 		this.url = default_url;
@@ -55,45 +57,53 @@ public class StaticGISDatasetReader {
 	 */
 	public void readDataToLocalFile() {
 		try {
-			URL url = this.getClass().getClassLoader().getResource(".");
-			System.out.println(url.toURI().getPath());
+//			URL url = this.getClass().getClassLoader().getResource(".");
+			URL url = new URL(this.url);
+			System.out.println(url.toString());
 			long time = System.currentTimeMillis();
-			File myf = new File(url.toURI().getPath(), "record-"+time+".txt");
-			if (myf.createNewFile()) {
-		        System.out.println("File created: " + myf.getName());
-		      } else {
-		    	  
-		        System.out.println("File already exists.");
-		      }
+//			File myf = new File(url.toURI().getPath(), "gtfs-"+time+".zip");
+			File myf = new File(localfilepath+File.separator, "gtfs-"+time+".zip");
+			if (!myf.exists())
+				myf.mkdirs();
+			System.out.println(myf.getAbsolutePath());
+			FileUtils.copyURLToFile(url, myf);
+//			if (myf.createNewFile()) {
+//		        System.out.println("File created: " + myf.getName());
+//		      } else {
+//		    	  
+//		        System.out.println("File already exists.");
+//		      }
+			//Try apache common IO
+			
 			//Open read in stream
-			BufferedInputStream bis = new BufferedInputStream(new URL(this.url).openStream());
+//			BufferedInputStream bis = new BufferedInputStream(new URL(this.url).openStream());
+//			
+//			int available = bis.available();
+//			byte[] total = new byte[available];
+//			byte[] dataBuffer = new byte[available];
+//			StringBuffer sb = new StringBuffer();
+//			int i = 0;
+//			BufferedWriter bw = new BufferedWriter(new FileWriter(myf, true));
+//			while((bis.read(dataBuffer) != -1) && (i <= 1000)){
+//				bis.read(dataBuffer);			
+//				String st = new String(dataBuffer, StandardCharsets.UTF_8);
+//				sb.append(st);
+//				dataBuffer = new byte[bis.available()];
+//				i++;
+//
+//				System.out.println("i is:"+i);
+//				if (i == 1000) {
+//					bw.write(sb.toString());
+////					bw.flush();
+//					i = 0;
+//					sb = new StringBuffer();
+//				}
+//			}
+//			bw.flush();
+//			bw.close();
+//			bis.close();			
 			
-			int available = bis.available();
-			byte[] total = new byte[available];
-			byte[] dataBuffer = new byte[available];
-			StringBuffer sb = new StringBuffer();
-			int i = 0;
-			BufferedWriter bw = new BufferedWriter(new FileWriter(myf, true));
-			while((bis.read(dataBuffer) != -1) && (i <= 1000)){
-				bis.read(dataBuffer);			
-				String st = new String(dataBuffer, StandardCharsets.UTF_8);
-				sb.append(st);
-				dataBuffer = new byte[bis.available()];
-				i++;
-//				System.out.println(st);
-				System.out.println("i is:"+i);
-				if (i == 1000) {
-					bw.write(sb.toString());
-//					bw.flush();
-					i = 0;
-					sb = new StringBuffer();
-				}
-			}
-			bw.flush();
-			bw.close();
-			bis.close();			
-			
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
