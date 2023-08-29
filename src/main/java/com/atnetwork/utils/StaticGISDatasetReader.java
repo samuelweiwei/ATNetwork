@@ -23,7 +23,8 @@ import io.micrometer.common.util.StringUtils;
 
 /**
  * @author weiwei
- *
+ * @see Springframework tools
+ * @see Apache common io tools
  */
 public class StaticGISDatasetReader {
 	private String url;
