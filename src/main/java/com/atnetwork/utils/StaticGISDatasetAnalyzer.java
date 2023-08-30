@@ -42,10 +42,10 @@ public class StaticGISDatasetAnalyzer {
 		}
 	}
 
-	public String readFileContent(){
+	public String readFileContent() {
 		StringBuffer filedata = new StringBuffer();
 		try {
-			String filepath = this.filename+"."+this.filetype;
+			String filepath = this.filename + "." + this.filetype;
 			ClassPathResource resource = new ClassPathResource(filepath);
 			File myf = resource.getFile();
 			System.out.println(myf);
@@ -66,7 +66,7 @@ public class StaticGISDatasetAnalyzer {
 		}
 		return filedata.toString();
 	}
-	
+
 	public static void main(String[] args) {
 		StaticGISDatasetAnalyzer read = new StaticGISDatasetAnalyzer();
 		String data = read.readFileContent();
