@@ -34,3 +34,7 @@ build/
 
 ### File types ###
 *.zip
+
+### Data ###
+.gtfs*/
+.gtfs*.zip
