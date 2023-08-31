@@ -20,8 +20,12 @@ public class StaticGISDatasetAnalyzer {
 
 	private String filename;
 	private String filetype;
-	public final static String default_json_filename = "BusRoute";
-	public final static String default_filetype = "json";
+	public final static String default_json_filename = "gtfs";
+	public final static String default_json_filepath = ".";
+	public final static String default_filetype = "txt";
+	public final static String[] default_gtfs_static_filename = {"agency","calendar","calendar_dates", "fare_attributes",
+																"fare_rules", "feed_info", "frequencies", "routes", "shapes",
+																"stop_times", "stops", "transfers", "trips"};
 
 	public StaticGISDatasetAnalyzer() {
 		this.filename = default_json_filename;
@@ -42,18 +46,37 @@ public class StaticGISDatasetAnalyzer {
 		}
 	}
 
-	public String readFileContent() {
+	/**
+	 * 
+	 * @param filepath
+	 * @return the text data string from file
+	 */
+	public String readFileContent(String path, String name) {
 		StringBuffer filedata = new StringBuffer();
+		String filepath, filename;
+		if (!StringUtils.isBlank(path)) {
+			filepath = path;
+		}else {
+			filepath = default_json_filepath;
+		}
+		if (!StringUtils.isBlank(name)) {
+			filename = name;
+		}else {
+			filename = this.default_json_filename;
+		}
 		try {
-			String filepath = this.filename + "." + this.filetype;
-			ClassPathResource resource = new ClassPathResource(filepath);
-			File myf = resource.getFile();
-			System.out.println(myf);
+			String fullfilepath = filepath + File.separator+filename+"."+default_filetype;
+//			ClassPathResource resource = new ClassPathResource(filepath);
+//			File myf = resource.getFile();
+//			System.out.println(myf);
+			File myf = new File(fullfilepath);
+			System.out.println(myf.getAbsolutePath());
 			Scanner myReader = new Scanner(myf);
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
 				System.out.println(data);
-				filedata.append(data);
+				//If add special marks here for further split to arrays
+				filedata.append(data+"+");
 			}
 			myReader.close();
 		} catch (FileNotFoundException e) {
@@ -69,7 +92,7 @@ public class StaticGISDatasetAnalyzer {
 
 	public static void main(String[] args) {
 		StaticGISDatasetAnalyzer read = new StaticGISDatasetAnalyzer();
-		String data = read.readFileContent();
+		String data = read.readFileContent(".\\gtfs-2023-08-30-23-04-35", "stops");
 		System.out.println(data);
 	}
 }

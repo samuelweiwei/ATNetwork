@@ -64,9 +64,10 @@ public class StaticGISDatasetReader {
 	/**
 	 * Download the file and write into local file
 	 * 
-	 * @return
+	 * @return the unzip file path
 	 */
-	public void readDataToLocalFile() {
+	public String readDataToLocalFile() {
+		String unzipfilepath;
 		try {
 			URL url = new URL(this.url);
 			SimpleDateFormat df = new SimpleDateFormat(this.pattern);
@@ -76,14 +77,18 @@ public class StaticGISDatasetReader {
 			if (!myf.exists())
 				myf.mkdirs();
 			FileUtils.copyURLToFile(url, myf);	
-			unzipFile(myf, localfilepath+File.separator+"gtfs-" + datestr);
+			boolean ret = unzipFile(myf, localfilepath+File.separator+"gtfs-" + datestr);
+			if (ret != true)
+				throw new IOException("Unzip data file failed");
+			unzipfilepath = localfilepath+File.separator+"gtfs-" + datestr;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} finally {
 
 		}
-		return;
+		return unzipfilepath;
 	}
 
 	/**
@@ -104,6 +109,7 @@ public class StaticGISDatasetReader {
 			dest.mkdirs();
 		FileInputStream fis;
 		byte[] buffer = new byte[1024];
+		boolean ret = false;
 		try{
 			fis = new FileInputStream(f.getAbsolutePath());
 			ZipInputStream zis = new ZipInputStream(fis);
@@ -126,11 +132,12 @@ public class StaticGISDatasetReader {
             zis.closeEntry();
             zis.close();
             fis.close();
+            ret = true;
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 
-		return false;
+		return ret;
 	} 
 
 	/**
