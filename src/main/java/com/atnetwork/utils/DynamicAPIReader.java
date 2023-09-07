@@ -10,6 +10,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -57,12 +60,20 @@ public class DynamicAPIReader {
 		}
 	}
 	
-	public String sendGET() {
+	public String sendGET(HashMap<String, String> p) {
 		String result = null;
 		HttpGet httpGet = new HttpGet(this.apiUrl);
 		List<NameValuePair> nvps = new ArrayList<>();
         // GET Query Parameters
         nvps.add(new BasicNameValuePair("subscription-key", default_subscription_key));
+        if ((p != null)  && (p.size() > 0)) {
+        	Iterator<String> it = p.keySet().iterator();
+        	while (it.hasNext()) {
+        		String key = it.next();
+        		String value = p.get(key);
+        		nvps.add(new BasicNameValuePair(key, value));
+        	}
+        }
         // Add to the request URL
         try {
             URI uri = new URIBuilder(new URI(this.apiUrl))
@@ -83,12 +94,20 @@ public class DynamicAPIReader {
 		return result;
 	}
 
-	public String sendPOST() {
+	public String sendPOST(HashMap<String, String> p) {
         String result = null;
         HttpPost httpPost = new HttpPost(this.apiUrl);
         // form parameters.
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair("subscription-key", default_subscription_key));
+        if ((p != null)  && (p.size() > 0)) {
+        	Iterator<String> it = p.keySet().iterator();
+        	while (it.hasNext()) {
+        		String key = it.next();
+        		String value = p.get(key);
+        		nvps.add(new BasicNameValuePair(key, value));
+        	}
+        }
         httpPost.setEntity(new UrlEncodedFormEntity(nvps));
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
