@@ -6,6 +6,8 @@ package com.atnetwork.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,9 +19,12 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
-import org.springframework.http.HttpEntity;
+import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -37,9 +42,11 @@ public class DynamicAPIReader {
 	private String apiUrl;
 	private String ret;
 	
-	public final static String default_busroute_url = "";
+	public final static String default_busroute_url = "https://api.at.govt.nz/realtime/legacy/servicealerts";
+	public final static String default_subscription_key = "edc69f77e51446f3be5cb82ecc8191dd";
 	
-	public DynamicAPIReader() {		
+	public DynamicAPIReader() {
+		this.apiUrl = default_busroute_url;
 	}
 	
 	public DynamicAPIReader(String apiUrl) {
@@ -50,70 +57,61 @@ public class DynamicAPIReader {
 		}
 	}
 	
-	public void sendGET() throws IOException {
-
+	public String sendGET() {
+		String result = null;
+		HttpGet httpGet = new HttpGet(this.apiUrl);
+		List<NameValuePair> nvps = new ArrayList<>();
+        // GET Query Parameters
+        nvps.add(new BasicNameValuePair("subscription-key", default_subscription_key));
+        // Add to the request URL
+        try {
+            URI uri = new URIBuilder(new URI(this.apiUrl))
+                .addParameters(nvps)
+                .build();
+            httpGet.setUri(uri);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
 		try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-			HttpGet httpGet = new HttpGet(this.apiUrl);
-//		httpGet.addHeader("User-Agent", USER_AGENT);
-			CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
-
-			System.out.println("GET Response Status:: " + httpResponse.getCode());
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = reader.readLine()) != null) {
-				response.append(inputLine);
+			try(CloseableHttpResponse resp = httpClient.execute(httpGet)){
+				HttpEntity entity = resp.getEntity();
+				result= EntityUtils.toString(entity);
 			}
-			reader.close();
-
-			// print result
-			System.out.println(response.toString());
-			
-			httpClient.close();
-		} catch (IOException e) {
-
-		}
-	}
-
-	public void sendPOST() throws IOException {
-
-		try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-			HttpPost httpPost = new HttpPost(this.apiUrl);
-//		httpPost.addHeader("User-Agent", USER_AGENT);
-
-			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-			urlParameters.add(new BasicNameValuePair("OBJECTID", "Pankaj Kumar"));
-
-			UrlEncodedFormEntity postParams = new UrlEncodedFormEntity(urlParameters);
-			httpPost.setEntity(postParams);
-
-			CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
-
-			System.out.println("POST Response Status:: " + httpResponse.getCode());
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = reader.readLine()) != null) {
-				response.append(inputLine);
-			}
-			reader.close();
-
-			// print result
-			System.out.println(response.toString());
-			httpClient.close();
-		} catch (IOException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
-
+		return result;
 	}
 
-	
+	public String sendPOST() {
+        String result = null;
+        HttpPost httpPost = new HttpPost(this.apiUrl);
+        // form parameters.
+        List<NameValuePair> nvps = new ArrayList<>();
+        nvps.add(new BasicNameValuePair("subscription-key", default_subscription_key));
+        httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+//                System.out.println(response.getVersion()); // HTTP/1.1
+//                System.out.println(response.getCode()); // 200
+//                System.out.println(response.getReasonPhrase()); // OK
+
+                HttpEntity entity = response.getEntity();
+                result = EntityUtils.toString(entity);
+                // Ensure that the stream is fully consumed
+                EntityUtils.consume(entity);
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+	public static void main(String[] args) {
+		DynamicAPIReader  dar = new DynamicAPIReader();
+		String result = dar.sendGET();
+		System.out.println(result);
+	}
 	
 
 }
