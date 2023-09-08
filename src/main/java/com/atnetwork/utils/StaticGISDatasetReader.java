@@ -15,7 +15,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -77,8 +79,8 @@ public class StaticGISDatasetReader {
 			if (!myf.exists())
 				myf.mkdirs();
 			FileUtils.copyURLToFile(url, myf);	
-			boolean ret = unzipFile(myf, localfilepath+File.separator+"gtfs-" + datestr);
-			if (ret != true)
+			List<String> ret = unzipFile(myf, localfilepath+File.separator+"gtfs-" + datestr);
+			if ((ret == null) || (ret.size() == 0))
 				throw new IOException("Unzip data file failed");
 			unzipfilepath = localfilepath+File.separator+"gtfs-" + datestr;
 		} catch (IOException e) {
@@ -97,8 +99,9 @@ public class StaticGISDatasetReader {
 	 * @param destpath
 	 * @return
 	 */
-	public boolean unzipFile(final File f, final String destpath){
+	public List<String> unzipFile(final File f, final String destpath){
 		String destDir = null;
+		List<String> ret = null;
 		if (StringUtils.isBlank(destpath)){
 			destDir = this.localfilepath;
 		}else{
@@ -109,13 +112,15 @@ public class StaticGISDatasetReader {
 			dest.mkdirs();
 		FileInputStream fis;
 		byte[] buffer = new byte[1024];
-		boolean ret = false;
 		try{
 			fis = new FileInputStream(f.getAbsolutePath());
 			ZipInputStream zis = new ZipInputStream(fis);
 			ZipEntry ze = zis.getNextEntry();
+			if (ze != null)
+				ret = new ArrayList<String>();
 			while (ze != null) {
 				String filename = ze.getName();
+				ret.add(ze.getName());
 				File newFile = new File(dest+File.separator+filename);
 				System.out.println("Unzipping to "+newFile.getAbsolutePath());
 				new File(newFile.getParent()).mkdirs();
@@ -132,7 +137,6 @@ public class StaticGISDatasetReader {
             zis.closeEntry();
             zis.close();
             fis.close();
-            ret = true;
 		}catch(IOException e){
 			e.printStackTrace();
 		}

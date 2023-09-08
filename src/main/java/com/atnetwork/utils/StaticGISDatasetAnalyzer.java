@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import org.springframework.core.io.ClassPathResource;
 
+import com.github.benmanes.caffeine.cache.Cache;
+
 import io.micrometer.common.util.StringUtils;
 
 /**
@@ -52,6 +54,7 @@ public class StaticGISDatasetAnalyzer {
 	 * @return the text data string from file
 	 */
 	public String readFileContent(String path, String name) {
+//		Cache<String, DataStorageObject> store = GTFSDataCacheBuilder.getNewCacheInstance();
 		StringBuffer filedata = new StringBuffer();
 		String filepath, filename;
 		if (!StringUtils.isBlank(path)) {

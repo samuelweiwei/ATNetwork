@@ -60,17 +60,22 @@ public class DynamicAPIReader {
 		}
 	}
 	
-	public String sendGET(HashMap<String, String> p) {
+	/**
+	 * 
+	 * @param param Request param list
+	 * @return Response string
+	 */
+	public String sendGET(HashMap<String, String> param) {
 		String result = null;
 		HttpGet httpGet = new HttpGet(this.apiUrl);
 		List<NameValuePair> nvps = new ArrayList<>();
         // GET Query Parameters
         nvps.add(new BasicNameValuePair("subscription-key", default_subscription_key));
-        if ((p != null)  && (p.size() > 0)) {
-        	Iterator<String> it = p.keySet().iterator();
+        if ((param != null)  && (param.size() > 0)) {
+        	Iterator<String> it = param.keySet().iterator();
         	while (it.hasNext()) {
         		String key = it.next();
-        		String value = p.get(key);
+        		String value = param.get(key);
         		nvps.add(new BasicNameValuePair(key, value));
         	}
         }
@@ -94,17 +99,22 @@ public class DynamicAPIReader {
 		return result;
 	}
 
-	public String sendPOST(HashMap<String, String> p) {
+	/**
+	 * 
+	 * @param param request param list
+	 * @return Response string
+	 */
+	public String sendPOST(HashMap<String, String> param) {
         String result = null;
         HttpPost httpPost = new HttpPost(this.apiUrl);
         // form parameters.
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair("subscription-key", default_subscription_key));
-        if ((p != null)  && (p.size() > 0)) {
-        	Iterator<String> it = p.keySet().iterator();
+        if ((param != null)  && (param.size() > 0)) {
+        	Iterator<String> it = param.keySet().iterator();
         	while (it.hasNext()) {
         		String key = it.next();
-        		String value = p.get(key);
+        		String value = param.get(key);
         		nvps.add(new BasicNameValuePair(key, value));
         	}
         }
@@ -128,7 +138,7 @@ public class DynamicAPIReader {
 
 	public static void main(String[] args) {
 		DynamicAPIReader  dar = new DynamicAPIReader();
-		String result = dar.sendGET();
+		String result = dar.sendGET(null);
 		System.out.println(result);
 	}
 	
