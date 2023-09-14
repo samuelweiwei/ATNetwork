@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.StaticStopsMapper">
+    <insert id="addStaticStops" parameterType="com.atnetwork.entity.StaticStopsBean">
+        insert into static_stops(stop_id,stop_code,stop_name,stop_desc,stop_lat,
+        							stop_lon,zone_id,stop_url,location_type,
+        							parent_station,stop_timezone,platform_code,
+        							wheelchair_boarding,start_date,end_date)
+        values(
+        	#{stop_id, jdbcType=VARCHAR},
+        	#{stop_code, jdbcType=VARCHAR}, 
+        	#{stop_name, jdbcType=VARCHAR},
+        	#{stop_desc, jdbcType=VARCHAR},
+        	#{stop_lat, jdbcType=VARCHAR},
+        	#{stop_lon, jdbcType=VARCHAR},
+        	#{zone_id, jdbcType=VARCHAR},
+        	#{stop_url, jdbcType=VARCHAR},
+        	#{location_type, jdbcType=VARCHAR},
+        	#{parent_station, jdbcType=VARCHAR},
+        	#{stop_timezone, jdbcType=VARCHAR},
+        	#{platform_code, jdbcType=VARCHAR},
+        	#{wheelchair_boarding, jdbcType=VARCHAR},
+        	#{start_date, jdbcType=VARCHAR},
+        	#{end_date, jdbcType=VARCHAR}
+        )
+    </insert>
+    <delete id="deleteStaticStops" parameterType="String">
+        DELETE FROM static_stops WHERE stop_id=#{stop_id}
+    </delete>
+    <update id="updateStaticStops" parameterType="com.atnetwork.entity.StaticStopsBean">
+        UPDATE static_stops set stop_code=#{stop_code, jdbcType=VARCHAR}, 
+        						stop_name=#{stop_name, jdbcType=VARCHAR},
+        						stop_desc=#{stop_desc, jdbcType=VARCHAR},
+        						stop_lat=#{stop_lat, jdbcType=VARCHAR},
+        						stop_lon=#{stop_lon, jdbcType=VARCHAR},
+        						zone_id=#{zone_id, jdbcType=VARCHAR},
+        						stop_url=#{stop_url, jdbcType=VARCHAR},
+        						location_type=#{location_type, jdbcType=VARCHAR},
+        						parent_station=#{parent_station, jdbcType=VARCHAR},
+        						stop_timezone=#{stop_timezone, jdbcType=VARCHAR},
+        						platform_code=#{platform_code, jdbcType=VARCHAR},
+        						wheelchair_boarding=#{wheelchair_boarding, jdbcType=VARCHAR},
+        						start_date=#{start_date, jdbcType=VARCHAR},
+        						end_date=#{end_date, jdbcType=VARCHAR}
+        					where stop_id=#{stop_id, jdbcType=VARCHAR}
+    </update>
+    <select id="getStaticStops" parameterType="String" resultType="com.atnetwork.entity.StaticStopsBean">
+        SELECT * FROM static_stops WHERE stop_id=#{stop_id}
+    </select>
+    <select id="getStaticStopsList" resultType="com.atnetwork.entity.StaticStopsBean">
+        SELECT * FROM static_stops
+    </select>
+</mapper>

@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
  * @author weiwei
  *
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, SecurityAutoConfiguration.class })
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class AtNetworkApplication {
 
 	public static void main(String[] args) {
