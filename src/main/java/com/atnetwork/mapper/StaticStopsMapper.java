@@ -18,9 +18,11 @@ import com.atnetwork.entity.StaticStopsBean;
 @Mapper
 @Repository
 public interface StaticStopsMapper {
-	int addStaticStops(StaticStopsBean ppb);
-	int updateStaticStops(StaticStopsBean ppb);
+	int addStaticStops(@Param("ppb")StaticStopsBean ppb);
+	int batchAddStaticStops(@Param("ssblist")List<StaticStopsBean> ssblist);
+	int updateStaticStops(@Param("ppb")StaticStopsBean ppb);
 	int deleteStaticStops(@Param("stop_id")String stop_id);
+	int deleteAll();
 	StaticStopsBean getStaticStops(@Param("stop_id")String stop_id);
 	List<StaticStopsBean> getStaticStopsList();
 }

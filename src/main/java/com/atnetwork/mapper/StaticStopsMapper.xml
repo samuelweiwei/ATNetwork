@@ -26,8 +26,37 @@
         	#{end_date, jdbcType=VARCHAR}
         )
     </insert>
+     <insert id="batchAddStaticStops" parameterType="list">
+        insert into static_stops(stop_id,stop_code,stop_name,stop_desc,stop_lat,
+        							stop_lon,zone_id,stop_url,location_type,
+        							parent_station,stop_timezone,platform_code,
+        							wheelchair_boarding,start_date,end_date)
+        values
+        <foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
+		(
+			#{ssb.stop_id, jdbcType=VARCHAR},
+        	#{ssb.stop_code, jdbcType=VARCHAR}, 
+        	#{ssb.stop_name, jdbcType=VARCHAR},
+        	#{ssb.stop_desc, jdbcType=VARCHAR},
+        	#{ssb.stop_lat, jdbcType=VARCHAR},
+        	#{ssb.stop_lon, jdbcType=VARCHAR},
+        	#{ssb.zone_id, jdbcType=VARCHAR},
+        	#{ssb.stop_url, jdbcType=VARCHAR},
+        	#{ssb.location_type, jdbcType=VARCHAR},
+        	#{ssb.parent_station, jdbcType=VARCHAR},
+        	#{ssb.stop_timezone, jdbcType=VARCHAR},
+        	#{ssb.platform_code, jdbcType=VARCHAR},
+        	#{ssb.wheelchair_boarding, jdbcType=VARCHAR},
+        	#{ssb.start_date, jdbcType=VARCHAR},
+        	#{ssb.end_date, jdbcType=VARCHAR}
+		)
+		</foreach>
+     </insert>
     <delete id="deleteStaticStops" parameterType="String">
         DELETE FROM static_stops WHERE stop_id=#{stop_id}
+    </delete>
+    <delete id="deleteAll">
+        DELETE FROM static_stops
     </delete>
     <update id="updateStaticStops" parameterType="com.atnetwork.entity.StaticStopsBean">
         UPDATE static_stops set stop_code=#{stop_code, jdbcType=VARCHAR}, 
