@@ -12,6 +12,7 @@ public class StaticRoutesBean {
 	private String route_short_name;
 	private String route_long_name;
 	private String route_desc;
+	private String route_type;
 	private String route_url;
 	private String route_color;
 	private String route_text_color;
@@ -76,5 +77,11 @@ public class StaticRoutesBean {
 	}
 	public void setContract_id(String contract_id) {
 		this.contract_id = contract_id;
+	}
+	public String getRoute_type() {
+		return route_type;
+	}
+	public void setRoute_type(String route_type) {
+		this.route_type = route_type;
 	}
 }

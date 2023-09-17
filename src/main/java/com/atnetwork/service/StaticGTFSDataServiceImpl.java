@@ -30,11 +30,11 @@ public class StaticGTFSDataServiceImpl implements StaticGTFSDataService {
 		//Analyze all the path ret to databases
 //		String stopsPath = pathret+File.separator+"stops.txt";
 		//Traverse the string array of data types
+		StringBuffer finalstr = new StringBuffer();
 		for(String type: CommonDataType.datatype_array) {
-			
+			finalstr.append(sta.readFileContentToDataList(pathret, type, type));
 		}
-		String finalstr = sta.readFileContentToDataList(pathret, "stops", "stops");
-		return finalstr;
+		return finalstr.toString();
 	}
 
 }

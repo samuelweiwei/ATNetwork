@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.StaticRoutesMapper">
+    <insert id="addStaticRoutes" parameterType="com.atnetwork.entity.StaticRoutesBean">
+        insert into static_routes(route_id,agency_id,route_short_name,route_long_name,
+        						route_desc,route_type,route_url,route_color,
+        						route_text_color,route_sort_order,contract_id)
+        values(
+        	#{route_id, jdbcType=VARCHAR},
+        	#{agency_id, jdbcType=VARCHAR}, 
+        	#{route_short_name, jdbcType=VARCHAR},
+        	#{route_long_name, jdbcType=VARCHAR},
+        	#{route_desc, jdbcType=VARCHAR},
+        	#{route_type, jdbcType=VARCHAR},
+        	#{route_url, jdbcType=VARCHAR},
+        	#{route_color, jdbcType=VARCHAR},
+        	#{route_text_color, jdbcType=VARCHAR},
+        	#{route_sort_order, jdbcType=VARCHAR},
+        	#{contract_id, jdbcType=VARCHAR}
+        )
+    </insert>
+     <insert id="batchAddStaticRoutes" parameterType="list">
+        insert into static_routes(route_id,agency_id,route_short_name,route_long_name,
+        						route_desc,route_type,route_url,route_color,
+        						route_text_color,route_sort_order,contract_id)
+        values
+        <foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
+		(
+			#{route_id, jdbcType=VARCHAR},
+        	#{agency_id, jdbcType=VARCHAR}, 
+        	#{route_short_name, jdbcType=VARCHAR},
+        	#{route_long_name, jdbcType=VARCHAR},
+        	#{route_desc, jdbcType=VARCHAR},
+        	#{route_type, jdbcType=VARCHAR},
+        	#{route_url, jdbcType=VARCHAR},
+        	#{route_color, jdbcType=VARCHAR},
+        	#{route_text_color, jdbcType=VARCHAR},
+        	#{route_sort_order, jdbcType=VARCHAR},
+        	#{contract_id, jdbcType=VARCHAR}
+		)
+		</foreach>
+     </insert>
+    <delete id="deleteStaticRoutes" parameterType="String">
+        DELETE FROM static_routes WHERE route_id=#{route_id}
+    </delete>
+    <delete id="deleteAll">
+        DELETE FROM static_routes
+    </delete>
+    <update id="updateStaticRoutes" parameterType="com.atnetwork.entity.StaticRoutesBean">
+        UPDATE static_routes set agency_id = #{agency_id, jdbcType=VARCHAR}, 
+        	route_short_name = #{route_short_name, jdbcType=VARCHAR},
+        	route_long_name = #{route_long_name, jdbcType=VARCHAR},
+        	route_desc = #{route_desc, jdbcType=VARCHAR},
+        	route_type = #{route_type, jdbcType=VARCHAR},
+        	route_url = #{route_url, jdbcType=VARCHAR},
+        	route_color = #{route_color, jdbcType=VARCHAR},
+        	route_text_color = #{route_text_color, jdbcType=VARCHAR},
+        	route_sort_order = #{route_sort_order, jdbcType=VARCHAR},
+        	contract_id = #{contract_id, jdbcType=VARCHAR}
+        					where route_id=#{route_id, jdbcType=VARCHAR}
+    </update>
+    <select id="getStaticRoutes" parameterType="String" resultType="com.atnetwork.entity.StaticRoutesBean">
+        SELECT * FROM static_routes WHERE route_id=#{route_id}
+    </select>
+    <select id="getStaticRoutesList" resultType="com.atnetwork.entity.StaticRoutesBean">
+        SELECT * FROM static_routes
+    </select>
+</mapper>

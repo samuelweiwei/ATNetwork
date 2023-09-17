@@ -18,4 +18,43 @@ CREATE TABLE IF NOT EXISTS public.static_stops (
     end_date VARCHAR(128)
 );
 
+CREATE TABLE IF NOT EXISTS public.static_routes (
+    route_id VARCHAR(256) UNIQUE,
+    agency_id VARCHAR(256),
+    route_short_name VARCHAR(128),
+    route_long_name VARCHAR(256),
+    route_desc VARCHAR(256),
+    route_type VARCHAR(128),
+    route_url VARCHAR(128),
+    route_color VARCHAR(128),
+    route_text_color VARCHAR(128),
+    route_sort_order VARCHAR(128),
+    contract_id VARCHAR(128)
+);
 
+CREATE TABLE IF NOT EXISTS public.static_trips (
+    route_id VARCHAR(256) UNIQUE,
+    service_id VARCHAR(256),
+    route_short_name VARCHAR(128),
+    route_long_name VARCHAR(256),
+    route_desc VARCHAR(256),
+    route_type VARCHAR(128),
+    route_url VARCHAR(128),
+    route_color VARCHAR(128),
+    route_text_color VARCHAR(128),
+    route_sort_order VARCHAR(128),
+    contract_id VARCHAR(128)
+);
+
+CREATE TABLE IF NOT EXISTS public.static_stop_times (
+    trip_id VARCHAR(256) UNIQUE,
+    arrival_time VARCHAR(128),
+    departure_time VARCHAR(128),
+    stop_id VARCHAR(256),
+    stop_sequence VARCHAR(128),
+    stop_headsign VARCHAR(128),
+    pickup_type VARCHAR(128),
+    drop_off_type VARCHAR(128),
+    shape_dist_traveled VARCHAR(128),
+    timepoint VARCHAR(128)
+);
