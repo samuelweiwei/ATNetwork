@@ -17,6 +17,7 @@ public interface StaticStopsService {
 	int addStaticStops(StaticStopsBean ppb);
 	int updateStaticStops(StaticStopsBean ppb);
 	int deleteStaticStops(@Param("stop_id")String stop_id);
+	int deleteStaticStopsAll();
 	StaticStopsBean getStaticStops(@Param("stop_id")String stop_id);
 	List<StaticStopsBean> getStaticBeansList();
 }
