@@ -15,6 +15,7 @@ import com.atnetwork.entity.StaticTripsBean;
  */
 public interface StaticTripsService {
 	int addStaticTrips(StaticTripsBean ppb);
+	int batchAddStaticTrips(List<StaticTripsBean> ssblist);
 	int updateStaticTrips(StaticTripsBean ppb);
 	int deleteStaticTrips(@Param("trip_id")String trip_id);
 	int deleteStaticTripsAll();

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.atnetwork.entity.StaticStopTimesBean;
 import com.atnetwork.mapper.StaticStopTimesMapper;
@@ -17,6 +18,7 @@ import com.atnetwork.mapper.StaticStopTimesMapper;
  * @author weiwei
  *
  */
+@Service
 public class StaticStopTimesServiceImpl implements StaticStopTimesService {
 	
 	private Logger logger = LoggerFactory.getLogger(StaticStopTimesServiceImpl.class);
@@ -74,6 +76,16 @@ public class StaticStopTimesServiceImpl implements StaticStopTimesService {
 	public int deleteStaticsStopTimesAll() {
 		// TODO Auto-generated method stub
 		return sstm.deleteAll();
+	}
+
+	@Override
+	public int batchAddStaticStopTimes(List<StaticStopTimesBean> ssblist) {
+		// TODO Auto-generated method stub
+		if ((ssblist == null) || (ssblist.size() == 0)) {
+			logger.error("Input static stop times list is null");
+			return 0;
+		}
+		return sstm.batchAddStaticStopTimes(ssblist);
 	}
 
 }

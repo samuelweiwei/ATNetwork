@@ -5,7 +5,9 @@ package com.atnetwork.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import com.atnetwork.entity.StaticTripsBean;
 
@@ -13,6 +15,8 @@ import com.atnetwork.entity.StaticTripsBean;
  * @author weiwei
  *
  */
+@Mapper
+@Repository
 public interface StaticTripsMapper {
 	int addStaticTrips(@Param("ppb")StaticTripsBean ppb);
 	int batchAddStaticTrips(@Param("ssblist")List<StaticTripsBean> ssblist);

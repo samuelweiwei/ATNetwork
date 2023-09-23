@@ -81,4 +81,7 @@
     <select id="getStaticStopsList" resultType="com.atnetwork.entity.StaticStopsBean">
         SELECT * FROM static_stops
     </select>
+    <select id="getRecordsCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM static_stops
+    </select>
 </mapper>

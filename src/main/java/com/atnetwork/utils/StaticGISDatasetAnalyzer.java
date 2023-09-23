@@ -144,6 +144,7 @@ public class StaticGISDatasetAnalyzer {
 		}else {
 			filename = this.default_json_filename;
 		}
+		String jsonstr = null;
 		try {
 			String fullfilepath = filepath + File.separator+filename+"."+default_filetype;
 //			ClassPathResource resource = new ClassPathResource(filepath);
@@ -151,12 +152,11 @@ public class StaticGISDatasetAnalyzer {
 //			System.out.println(myf);
 			File myf = new File(fullfilepath);
 			System.out.println(myf.getAbsolutePath());
-			Scanner myReader = new Scanner(myf);
+			Scanner myReader = new Scanner(myf);			
 			if (myReader.hasNext()) {
 				//read the first line
 				String titles = myReader.nextLine();
-				retdata = new ArrayList<>(); 
-				String jsonstr;
+				retdata = new ArrayList<>(); 				
 				while (myReader.hasNextLine()) {
 					String data = myReader.nextLine();
 //					System.out.println(data);
@@ -167,7 +167,11 @@ public class StaticGISDatasetAnalyzer {
 //					}
 					filedata.append(data+":");
 				}
-				jsonstr = parseDataToDB(filedata.substring(0, filedata.length()-1), datatype);
+				if (filedata.length() != 0) {
+					jsonstr = parseDataToDB(filedata.substring(0, filedata.length()-1), datatype);
+				}else {
+					jsonstr = null;
+				}
 			}
 			
 			myReader.close();
@@ -179,8 +183,11 @@ public class StaticGISDatasetAnalyzer {
 			System.out.println("An file IO error occurred.");
 			e.printStackTrace();
 		}
-		String finalstr = JSON.toJSONString(retdata);
-		return finalstr;
+		if(!StringUtils.isBlank(jsonstr)) {
+			String finalstr = JSON.toJSONString(jsonstr);
+			return finalstr;
+		}
+		return jsonstr;
 	}
 	
 	public String parseDataToDB(String data, String datatype) {

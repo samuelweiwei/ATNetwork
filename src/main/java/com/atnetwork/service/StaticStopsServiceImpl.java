@@ -78,4 +78,20 @@ public class StaticStopsServiceImpl implements StaticStopsService {
 		return stopsMapper.deleteAll();
 	}
 
+	@Override
+	public int batchAddStaticStops(List<StaticStopsBean> ssblist) {
+		// TODO Auto-generated method stub
+		if ((ssblist == null) || (ssblist.size() == 0)) {
+			logger.error("Input static stops list is null");
+			return 0;
+		}
+		return stopsMapper.batchAddStaticStops(ssblist);
+	}
+
+	@Override
+	public int getRecordsCount() {
+		// TODO Auto-generated method stub
+		return stopsMapper.getRecordsCount();
+	}
+
 }

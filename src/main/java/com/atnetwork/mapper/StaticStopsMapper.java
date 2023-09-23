@@ -25,4 +25,5 @@ public interface StaticStopsMapper {
 	int deleteAll();
 	StaticStopsBean getStaticStops(@Param("stop_id")String stop_id);
 	List<StaticStopsBean> getStaticStopsList();
+	int getRecordsCount();
 }

@@ -79,4 +79,14 @@ public class StaticRoutesServiceImpl implements StaticRoutesService {
 		return srm.deleteAll();
 	}
 
+	@Override
+	public int batchAddStaticRoutes(List<StaticRoutesBean> ssblist) {
+		// TODO Auto-generated method stub
+		if ((ssblist == null) || (ssblist.size() == 0)) {
+			logger.error("Input static routes list is null");
+			return 0;
+		}
+		return srm.batchAddStaticRoutes(ssblist);
+	}
+
 }

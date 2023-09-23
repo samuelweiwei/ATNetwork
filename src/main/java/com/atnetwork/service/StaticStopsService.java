@@ -15,9 +15,11 @@ import com.atnetwork.entity.StaticStopsBean;
  */
 public interface StaticStopsService {
 	int addStaticStops(StaticStopsBean ppb);
+	int batchAddStaticStops(List<StaticStopsBean> ssblist);
 	int updateStaticStops(StaticStopsBean ppb);
 	int deleteStaticStops(@Param("stop_id")String stop_id);
 	int deleteStaticStopsAll();
 	StaticStopsBean getStaticStops(@Param("stop_id")String stop_id);
 	List<StaticStopsBean> getStaticBeansList();
+	int getRecordsCount();
 }

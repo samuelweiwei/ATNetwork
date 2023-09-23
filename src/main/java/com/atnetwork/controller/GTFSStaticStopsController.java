@@ -25,13 +25,18 @@ public class GTFSStaticStopsController {
 	@GetMapping(value="/list")
 	public ResultEntity<List<StaticStopsBean>> getStaticStops(){
 		ResultEntity<List<StaticStopsBean>> ret = new ResultEntity<>();
-		List<StaticStopsBean> result = this.stopService.getStaticBeansList();
-		if ((result != null) && (result.size() != 0)) {
-			ret.setResult(ResultEntity.result_succeeded);
-			ret.setData(result);
-			return ret;
-		}
-		ret.setResult(ResultEntity.result_failed);
+		int count = this.stopService.getRecordsCount();
+//		List<StaticStopsBean> result = this.stopService.getStaticBeansList();
+//		if ((result != null) && (result.size() != 0)) {
+//			ret.setResult(ResultEntity.result_succeeded);
+//			ret.setData(result);
+//			return ret;
+//		}
+		ret.setResult(ResultEntity.result_succeeded);
+		ret.setRemarks("Has many record");		
+		Integer cnt = count;
+		ret.setErrorcode(cnt.toString());
+//		ret.setResult(ResultEntity.result_failed);
 		return ret;
 	}
 }

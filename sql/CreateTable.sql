@@ -58,3 +58,22 @@ CREATE TABLE IF NOT EXISTS public.static_stop_times (
     shape_dist_traveled VARCHAR(128),
     timepoint VARCHAR(128)
 );
+
+CREATE TABLE IF NOT EXISTS public.static_calendar (
+    service_id VARCHAR(256) UNIQUE,
+    monday VARCHAR(8),
+    tuesday VARCHAR(8),
+    wednesday VARCHAR(8),
+    thursday VARCHAR(8),
+    friday VARCHAR(8),
+    saturday VARCHAR(8),
+    sunday VARCHAR(8),
+    start_date VARCHAR(128),
+    end_date VARCHAR(128)
+);
+
+CREATE TABLE IF NOT EXISTS public.static_calendar_dates (
+	service_id VARCHAR(256),
+	"date" VARCHAR(128),
+	exception_type VARCHAR(8)
+)

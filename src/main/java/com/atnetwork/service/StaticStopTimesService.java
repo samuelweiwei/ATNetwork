@@ -15,6 +15,7 @@ import com.atnetwork.entity.StaticStopTimesBean;
  */
 public interface StaticStopTimesService {
 	int addStaticStopTimes(StaticStopTimesBean ppb);
+	int batchAddStaticStopTimes(List<StaticStopTimesBean> ssblist);
 	int updateStaticStopTimes(StaticStopTimesBean ppb);
 	int deleteStaticStopTimes(@Param("stop_id")String stop_id);
 	int deleteStaticsStopTimesAll();

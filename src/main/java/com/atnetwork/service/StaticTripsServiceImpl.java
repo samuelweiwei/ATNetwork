@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.atnetwork.entity.StaticTripsBean;
 import com.atnetwork.mapper.StaticTripsMapper;
@@ -17,6 +18,7 @@ import com.atnetwork.mapper.StaticTripsMapper;
  * @author weiwei
  *
  */
+@Service
 public class StaticTripsServiceImpl implements StaticTripsService {
 	
 	private Logger logger = LoggerFactory.getLogger(StaticTripsServiceImpl.class);
@@ -84,6 +86,16 @@ public class StaticTripsServiceImpl implements StaticTripsService {
 	public int deleteStaticTripsAll() {
 		// TODO Auto-generated method stub
 		return stm.deleteAll();
+	}
+
+	@Override
+	public int batchAddStaticTrips(List<StaticTripsBean> ssblist) {
+		// TODO Auto-generated method stub
+		if ((ssblist == null) || (ssblist.size() == 0)) {
+			logger.error("Input static trips list is null");
+			return 0;
+		}
+		return stm.batchAddStaticTrips(ssblist);
 	}
 
 }
