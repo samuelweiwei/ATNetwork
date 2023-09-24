@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.StaticShapesMapper">
+    <insert id="addStaticShapes" parameterType="com.atnetwork.entity.StaticShapesBean">
+        insert into static_shapes(shape_id,shape_pt_lat,shape_pt_lon,
+        							shape_pt_sequence,shape_dist_traveled)
+        values(
+        	#{shape_id, jdbcType=VARCHAR},
+        	#{shape_pt_lat, jdbcType=VARCHAR}, 
+        	#{shape_pt_lon, jdbcType=VARCHAR},
+        	#{shape_pt_sequence, jdbcType=VARCHAR},
+        	#{shape_dist_traveled, jdbcType=VARCHAR}
+        )
+    </insert>
+     <insert id="batchAddStaticShapes" parameterType="list">
+        insert into static_shapes(shape_id,shape_pt_lat,shape_pt_lon,
+        							shape_pt_sequence,shape_dist_traveled)
+        values
+        <foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
+		(
+			#{shape_id, jdbcType=VARCHAR},
+        	#{shape_pt_lat, jdbcType=VARCHAR}, 
+        	#{shape_pt_lon, jdbcType=VARCHAR},
+        	#{shape_pt_sequence, jdbcType=VARCHAR},
+        	#{shape_dist_traveled, jdbcType=VARCHAR}
+		)
+		</foreach>
+     </insert>
+    <delete id="deleteStaticShapes" parameterType="String">
+        DELETE FROM static_shapes WHERE shape_id=#{shape_id}
+    </delete>
+    <delete id="deleteAll">
+        DELETE FROM static_shapes
+    </delete>
+    <select id="getStaticShapes" parameterType="String" resultType="com.atnetwork.entity.StaticShapesBean">
+        SELECT * FROM static_shapes WHERE shape_id=#{shape_id}
+    </select>
+    <select id="getStaticShapesList" resultType="com.atnetwork.entity.StaticShapesBean">
+        SELECT * FROM static_shapes
+    </select>
+    <select id="getRecordsCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM static_shapes
+    </select>
+</mapper>

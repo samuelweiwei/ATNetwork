@@ -50,7 +50,7 @@ public class StaticStopsServiceImpl implements StaticStopsService {
 	public int deleteStaticStops(String stop_id) {
 		// TODO Auto-generated method stub
 		if (StringUtils.isBlank(stop_id)) {
-			logger.error("Input static stops bean is null");
+			logger.error("Input stop id is null");
 			return 0;
 		}
 		return stopsMapper.deleteStaticStops(stop_id);

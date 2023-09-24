@@ -76,4 +76,12 @@ CREATE TABLE IF NOT EXISTS public.static_calendar_dates (
 	service_id VARCHAR(256),
 	"date" VARCHAR(128),
 	exception_type VARCHAR(8)
+);
+
+CREATE TABLE IF NOT EXISTS public.static_shapes (
+	shape_id VARCHAR(256),
+	shape_pt_lat VARCHAR(128),
+	shape_pt_lon VARCHAR(128),
+	shape_pt_sequence VARCHAR(16),
+	shape_dist_traveled VARCHAR(128)
 )

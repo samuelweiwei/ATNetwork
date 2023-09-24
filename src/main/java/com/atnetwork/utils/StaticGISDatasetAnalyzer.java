@@ -24,11 +24,21 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson2.JSON;
 import com.atnetwork.dataset.DataAnalyzer;
+import com.atnetwork.dataset.RoutesAnalyzer;
+import com.atnetwork.dataset.ShapesAnalyzer;
+import com.atnetwork.dataset.StopTimesAnalyzer;
 import com.atnetwork.dataset.StopsAnalyzer;
 import com.atnetwork.dataset.TripsAnalyzer;
+import com.atnetwork.entity.StaticRoutesBean;
+import com.atnetwork.entity.StaticShapesBean;
+import com.atnetwork.entity.StaticStopTimesBean;
 import com.atnetwork.entity.StaticStopsBean;
 import com.atnetwork.entity.StaticTripsBean;
+import com.atnetwork.mapper.StaticRoutesMapper;
+import com.atnetwork.mapper.StaticShapesMapper;
+import com.atnetwork.mapper.StaticStopTimesMapper;
 import com.atnetwork.mapper.StaticStopsMapper;
+import com.atnetwork.mapper.StaticTripsMapper;
 import com.github.benmanes.caffeine.cache.Cache;
 
 import io.micrometer.common.util.StringUtils;
@@ -50,7 +60,7 @@ public class StaticGISDatasetAnalyzer {
 																"stop_times", "stops", "transfers", "trips"};
 
 	@Autowired
-	private StaticStopsMapper stopsMapper;
+	StaticGISOperation so;
 	
 	private static Logger logger = LoggerFactory.getLogger(StaticGISDatasetAnalyzer.class);
 	
@@ -200,49 +210,34 @@ public class StaticGISDatasetAnalyzer {
 		String[] arr = data.split(":");
 		switch(datatype.trim().toLowerCase()) {
 			case "stops":
-				DataAnalyzer<StaticStopsBean> sb = new StopsAnalyzer();
-				List<StaticStopsBean> ssb = new ArrayList<>();
-				for(String stop: arr) {
-					StaticStopsBean result = sb.analyzedata(stop);
-					if (result != null) {
-						ssb.add(result);
-					}
-				}
-				stopsMapper.deleteAll();
-				//Avoid to big list size
-				List<List<StaticStopsBean>> subs = this.partitionList(ssb);
-				for(List<StaticStopsBean> sub: subs) {
-					stopsMapper.batchAddStaticStops(sub);
-				}
-				ret = JSON.toJSONString(ssb);
+				ret = so.operateStops(arr);
 				break;
 			case "trips":
-				DataAnalyzer<StaticTripsBean> st = new TripsAnalyzer();
-				StaticTripsBean stb = st.analyzedata(data);
-				ret = JSON.toJSONString(stb);
-				break;				
+				ret = so.operateTrips(arr);
+				break;		
+			case "routes":
+				ret = so.operateRoutes(arr);
+				break;
+			case "stop_times":
+				ret = so.OperateStopTimes(arr);
+				break;
+			case "shapes":
+				ret = so.operateShapes(arr);
+				break;
+			case "calendar":
+				ret = so.operateCalendar(arr);
+				break;
+			case "calendar_dates":
+				ret = so.operateCalendarDates(arr);
+				break;
+			case "agency":
+				break;
+			case "feed_info":
+				break;
 			default:
 				break;
 		}
 		return ret;
-	}
-	
-	/**
-	 * Must be version above java 8
-	 * @param origin
-	 * @return
-	 */
-	private <T> List<List<T>> partitionList(List<T> origin){
-		if ((origin == null) || (origin.size() == 0)) {
-			logger.error("Empty list to partition");
-			return null;
-		}
-		int batchcount = 0;
-		if (origin.size() > 500) {
-			batchcount = origin.size() / 500;
-		}
-		List<List<T>> subs = ListUtils.partition(origin, batchcount);
-		return subs;
 	}
 	
 	public static void main(String[] args) {
