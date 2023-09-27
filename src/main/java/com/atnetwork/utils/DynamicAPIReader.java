@@ -34,6 +34,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson2.JSON;
+import com.atnetwork.entity.realtime.RealtimeServiceAlertBean;
+import com.atnetwork.entity.realtime.RealtimeTripUpdateBean;
+import com.atnetwork.entity.realtime.RealtimeVehiclePositionsBean;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.micrometer.common.util.StringUtils;
 
 /**
@@ -45,18 +53,20 @@ public class DynamicAPIReader {
 	private String apiUrl;
 	private String ret;
 	
-	public final static String default_busroute_url = "https://api.at.govt.nz/realtime/legacy/servicealerts";
+	public final static String default_service_alert_url = "https://api.at.govt.nz/realtime/legacy/servicealerts";
+	public final static String default_trip_update_url = "https://api.at.govt.nz/realtime/legacy/tripupdates";
+	public final static String default_vehicle_positions_url = "https://api.at.govt.nz/realtime/legacy/vehiclelocations";
 	public final static String default_subscription_key = "edc69f77e51446f3be5cb82ecc8191dd";
 	
 	public DynamicAPIReader() {
-		this.apiUrl = default_busroute_url;
+		this.apiUrl = default_service_alert_url;
 	}
 	
 	public DynamicAPIReader(String apiUrl) {
 		if (!StringUtils.isBlank(apiUrl)) {
 			this.apiUrl = apiUrl;
 		}else {
-			this.apiUrl = default_busroute_url;
+			this.apiUrl = default_service_alert_url;
 		}
 	}
 	
@@ -137,9 +147,19 @@ public class DynamicAPIReader {
     }
 
 	public static void main(String[] args) {
-		DynamicAPIReader  dar = new DynamicAPIReader();
-		String result = dar.sendGET(null);
-		System.out.println(result);
+		DynamicAPIReader  dar = new DynamicAPIReader(default_vehicle_positions_url);
+		String result = dar.sendGET(null);	
+//		System.out.println("Result is: "+result);
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			RealtimeVehiclePositionsBean alertbean = mapper.readValue(result, RealtimeVehiclePositionsBean.class);
+			System.out.println("json string is: "+JSON.toJSONString(alertbean));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 
