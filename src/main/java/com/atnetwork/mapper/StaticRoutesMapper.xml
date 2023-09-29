@@ -28,17 +28,17 @@
         values
         <foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
 		(
-			#{route_id, jdbcType=VARCHAR},
-        	#{agency_id, jdbcType=VARCHAR}, 
-        	#{route_short_name, jdbcType=VARCHAR},
-        	#{route_long_name, jdbcType=VARCHAR},
-        	#{route_desc, jdbcType=VARCHAR},
-        	#{route_type, jdbcType=VARCHAR},
-        	#{route_url, jdbcType=VARCHAR},
-        	#{route_color, jdbcType=VARCHAR},
-        	#{route_text_color, jdbcType=VARCHAR},
-        	#{route_sort_order, jdbcType=VARCHAR},
-        	#{contract_id, jdbcType=VARCHAR}
+			#{ssb.route_id, jdbcType=VARCHAR},
+        	#{ssb.agency_id, jdbcType=VARCHAR}, 
+        	#{ssb.route_short_name, jdbcType=VARCHAR},
+        	#{ssb.route_long_name, jdbcType=VARCHAR},
+        	#{ssb.route_desc, jdbcType=VARCHAR},
+        	#{ssb.route_type, jdbcType=VARCHAR},
+        	#{ssb.route_url, jdbcType=VARCHAR},
+        	#{ssb.route_color, jdbcType=VARCHAR},
+        	#{ssb.route_text_color, jdbcType=VARCHAR},
+        	#{ssb.route_sort_order, jdbcType=VARCHAR},
+        	#{ssb.contract_id, jdbcType=VARCHAR}
 		)
 		</foreach>
      </insert>

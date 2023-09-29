@@ -20,11 +20,11 @@
         values
         <foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
 		(
-			#{shape_id, jdbcType=VARCHAR},
-        	#{shape_pt_lat, jdbcType=VARCHAR}, 
-        	#{shape_pt_lon, jdbcType=VARCHAR},
-        	#{shape_pt_sequence, jdbcType=VARCHAR},
-        	#{shape_dist_traveled, jdbcType=VARCHAR}
+			#{ssb.shape_id, jdbcType=VARCHAR},
+        	#{ssb.shape_pt_lat, jdbcType=VARCHAR}, 
+        	#{ssb.shape_pt_lon, jdbcType=VARCHAR},
+        	#{ssb.shape_pt_sequence, jdbcType=VARCHAR},
+        	#{ssb.shape_dist_traveled, jdbcType=VARCHAR}
 		)
 		</foreach>
      </insert>

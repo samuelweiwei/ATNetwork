@@ -23,16 +23,16 @@
         values
 		<foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
 		(
-        	#{service_id, jdbcType=VARCHAR},
-        	#{monday, jdbcType=VARCHAR}, 
-        	#{tuesday, jdbcType=VARCHAR},
-        	#{wednesday, jdbcType=VARCHAR},
-        	#{thursday, jdbcType=VARCHAR},
-        	#{friday, jdbcType=VARCHAR},
-        	#{saturday, jdbcType=VARCHAR},
-        	#{sunday, jdbcType=VARCHAR},
-        	#{start_date, jdbcType=VARCHAR},
-        	#{end_date, jdbcType=VARCHAR}
+        	#{ssb.service_id, jdbcType=VARCHAR},
+        	#{ssb.monday, jdbcType=VARCHAR}, 
+        	#{ssb.tuesday, jdbcType=VARCHAR},
+        	#{ssb.wednesday, jdbcType=VARCHAR},
+        	#{ssb.thursday, jdbcType=VARCHAR},
+        	#{ssb.friday, jdbcType=VARCHAR},
+        	#{ssb.saturday, jdbcType=VARCHAR},
+        	#{ssb.sunday, jdbcType=VARCHAR},
+        	#{ssb.start_date, jdbcType=VARCHAR},
+        	#{ssb.end_date, jdbcType=VARCHAR}
 		)
 		</foreach>
 	</insert>

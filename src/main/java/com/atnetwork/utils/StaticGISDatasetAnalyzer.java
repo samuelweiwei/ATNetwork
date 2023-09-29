@@ -157,6 +157,9 @@ public class StaticGISDatasetAnalyzer {
 		String jsonstr = null;
 		try {
 			String fullfilepath = filepath + File.separator+filename+"."+default_filetype;
+			/*test pass shapes*/
+			if (filename.equals("stop_times"))
+				return null;
 //			ClassPathResource resource = new ClassPathResource(filepath);
 //			File myf = resource.getFile();
 //			System.out.println(myf);
@@ -175,7 +178,7 @@ public class StaticGISDatasetAnalyzer {
 //					if (!StringUtils.isBlank(jsonstr)) {
 //						retdata.add(jsonstr);
 //					}
-					filedata.append(data+":");
+					filedata.append(data+"+");
 				}
 				if (filedata.length() != 0) {
 					jsonstr = parseDataToDB(filedata.substring(0, filedata.length()-1), datatype);
@@ -207,37 +210,40 @@ public class StaticGISDatasetAnalyzer {
 		}
 		System.out.println(data);
 		String ret = null;
-		String[] arr = data.split(":");
-		switch(datatype.trim().toLowerCase()) {
-			case "stops":
-				ret = so.operateStops(arr);
-				break;
-			case "trips":
-				ret = so.operateTrips(arr);
-				break;		
-			case "routes":
-				ret = so.operateRoutes(arr);
-				break;
-			case "stop_times":
-				ret = so.OperateStopTimes(arr);
-				break;
-			case "shapes":
-				ret = so.operateShapes(arr);
-				break;
-			case "calendar":
-				ret = so.operateCalendar(arr);
-				break;
-			case "calendar_dates":
-				ret = so.operateCalendarDates(arr);
-				break;
-			case "agency":
-				break;
-			case "feed_info":
-				break;
-			default:
-				break;
-		}
-		return ret;
+		String[] arr = data.split("\\+");
+		datatype = datatype.trim().toLowerCase();
+		Thread t = new Thread(new GTFSOperationTask(so, datatype, arr));
+		t.start();
+//		switch(datatype.trim().toLowerCase()) {
+//			case "stops":
+//				ret = so.operateStops(arr);
+//				break;
+//			case "trips":
+//				ret = so.operateTrips(arr);
+//				break;		
+//			case "routes":
+//				ret = so.operateRoutes(arr);
+//				break;
+//			case "stop_times":
+//				ret = so.OperateStopTimes(arr);
+//				break;
+//			case "shapes":
+//				ret = so.operateShapes(arr);
+//				break;
+//			case "calendar":
+//				ret = so.operateCalendar(arr);
+//				break;
+//			case "calendar_dates":
+//				ret = so.operateCalendarDates(arr);
+//				break;
+//			case "agency":
+//				break;
+//			case "feed_info":
+//				break;
+//			default:
+//				break;
+//		}
+		return "successful get and loaded all GTFS static data";
 	}
 	
 	public static void main(String[] args) {

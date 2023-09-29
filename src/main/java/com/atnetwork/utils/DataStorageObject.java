@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class DataStorageObject {
 	//Storage data format
 	private ArrayList<String> data;
-	private static int counter = 0;
 	
 	public static DataStorageObject getInstance() {
 		return new DataStorageObject();

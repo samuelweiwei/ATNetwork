@@ -22,7 +22,7 @@ public class GTFSStaticStopsController {
 	@Autowired
 	StaticStopsService stopService;
 	
-	@GetMapping(value="/listcount")
+	@GetMapping(value="/stopcounts")
 	public ResultEntity<List<StaticStopsBean>> getStaticStopsCount(){
 		ResultEntity<List<StaticStopsBean>> ret = new ResultEntity<>();
 		int count = this.stopService.getRecordsCount();
@@ -33,7 +33,7 @@ public class GTFSStaticStopsController {
 		return ret;
 	}
 	
-	@GetMapping(value="/listall")
+	@GetMapping(value="/allstops")
 	public ResultEntity<List<StaticStopsBean>> getStaticStops(){
 		ResultEntity<List<StaticStopsBean>> ret = new ResultEntity<>();
 		List<StaticStopsBean> result = this.stopService.getStaticBeansList();

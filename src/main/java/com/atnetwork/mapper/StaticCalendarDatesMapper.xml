@@ -14,9 +14,9 @@
         values
 		<foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
 		(
-        	#{service_id, jdbcType=VARCHAR},
-        	#{date, jdbcType=VARCHAR}, 
-        	#{exception_type, jdbcType=VARCHAR}
+        	#{ssb.service_id, jdbcType=VARCHAR},
+        	#{ssb.date, jdbcType=VARCHAR}, 
+        	#{ssb.exception_type, jdbcType=VARCHAR}
 		)
 		</foreach>
 	</insert>

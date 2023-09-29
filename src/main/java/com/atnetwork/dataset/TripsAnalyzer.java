@@ -45,7 +45,7 @@ public class TripsAnalyzer implements DataAnalyzer<StaticTripsBean> {
 		stb.setBlock_id(sary[6]);
 		stb.setShape_id(sary[7]);
 		stb.setWheelchair_accessible(sary[8]);
-		stb.setBike_allowed(sary[9]);
+		stb.setBikes_allowed(sary[9]);
 		return stb;
 	}
 

@@ -66,7 +66,7 @@ public class StaticGISOperation {
 	
 	private static Logger logger = LoggerFactory.getLogger(StaticGISOperation.class);
 	
-	public String operateStops(String[] arr) {
+	public void operateStops(String[] arr) {
 		String ret = null;
 		DataAnalyzer<StaticStopsBean> sb = new StopsAnalyzer();
 		List<StaticStopsBean> ssb = new ArrayList<>();
@@ -76,17 +76,21 @@ public class StaticGISOperation {
 				ssb.add(result);
 			}
 		}
+		if (arr.length != ssb.size()) {
+			int sub = arr.length - ssb.size();
+			logger.error("There are some dirty data in stops, number is: "+sub);
+		}
 		stopsMapper.deleteAll();
 		//Avoid to big list size
 		List<List<StaticStopsBean>> subs = this.partitionList(ssb);
 		for(List<StaticStopsBean> sub: subs) {
 			stopsMapper.batchAddStaticStops(sub);
 		}
-		ret = JSON.toJSONString(ssb);
-		return ret;
+//		ret = JSON.toJSONString(ssb);
+		return;
 	}
 	
-	public String operateTrips(String[] arr) {
+	public void operateTrips(String[] arr) {
 		DataAnalyzer<StaticTripsBean> st = new TripsAnalyzer();
 		List<StaticTripsBean> ssb = new ArrayList<>();
 		String ret = null;
@@ -96,17 +100,21 @@ public class StaticGISOperation {
 				ssb.add(result);
 			}
 		}
+		if (arr.length != ssb.size()) {
+			int sub = arr.length - ssb.size();
+			logger.error("There are some dirty data in trips, number is: "+sub);
+		}
 		tripsMapper.deleteAll();
 		//Avoid to big list size
 		List<List<StaticTripsBean>> subs = this.partitionList(ssb);
 		for(List<StaticTripsBean> sub: subs) {
 			tripsMapper.batchAddStaticTrips(sub);
 		}
-		ret = JSON.toJSONString(ssb);
-		return ret;
+//		ret = JSON.toJSONString(ssb);
+		return;
 	}
 	
-	public String operateRoutes(String[] arr) {
+	public void operateRoutes(String[] arr) {
 		DataAnalyzer<StaticRoutesBean> st = new RoutesAnalyzer();
 		List<StaticRoutesBean> ssb = new ArrayList<>();
 		String ret = null;
@@ -116,17 +124,21 @@ public class StaticGISOperation {
 				ssb.add(result);
 			}
 		}
+		if (arr.length != ssb.size()) {
+			int sub = arr.length - ssb.size();
+			logger.error("There are some dirty data in routes, number is: "+sub);
+		}
 		routesMapper.deleteAll();
 		//Avoid to big list size
 		List<List<StaticRoutesBean>> subs = this.partitionList(ssb);
 		for(List<StaticRoutesBean> sub: subs) {
 			routesMapper.batchAddStaticRoutes(sub);
 		}
-		ret = JSON.toJSONString(ssb);
-		return ret;
+//		ret = JSON.toJSONString(ssb);
+		return;
 	}
 	
-	public String OperateStopTimes(String[] arr) {
+	public void OperateStopTimes(String[] arr) {
 		DataAnalyzer<StaticStopTimesBean> st = new StopTimesAnalyzer();
 		List<StaticStopTimesBean> ssb = new ArrayList<>();
 		String ret = null;
@@ -136,17 +148,22 @@ public class StaticGISOperation {
 				ssb.add(result);
 			}
 		}
+		if (arr.length != ssb.size()) {
+			int sub = arr.length - ssb.size();
+			logger.error("There are some dirty data in stop times, number is: "+sub);
+		}
 		stopTimesMapper.deleteAll();
 		//Avoid to big list size
 		List<List<StaticStopTimesBean>> subs = this.partitionList(ssb);
 		for(List<StaticStopTimesBean> sub: subs) {
 			stopTimesMapper.batchAddStaticStopTimes(sub);
 		}
-		ret = JSON.toJSONString(ssb);
-		return ret;
+		ret = "successful";
+//		ret = JSON.toJSONString(ssb);
+		return;
 	}
 	
-	public String operateShapes(String[] arr) {
+	public void operateShapes(String[] arr) {
 		DataAnalyzer<StaticShapesBean> st = new ShapesAnalyzer();
 		List<StaticShapesBean> ssb = new ArrayList<>();
 		String ret = null;
@@ -156,17 +173,21 @@ public class StaticGISOperation {
 				ssb.add(result);
 			}
 		}
+		if (arr.length != ssb.size()) {
+			int sub = arr.length - ssb.size();
+			logger.error("There are some dirty data in shapes, number is: "+sub);
+		}
 		shapesMapper.deleteAll();
 		//Avoid to big list size
 		List<List<StaticShapesBean>> subs = this.partitionList(ssb);
 		for(List<StaticShapesBean> sub: subs) {
 			shapesMapper.batchAddStaticShapes(sub);
 		}
-		ret = JSON.toJSONString(ssb);
-		return ret;
+//		ret = JSON.toJSONString(ssb);
+		return;
 	}
 
-	public String operateCalendar(String[] arr) {
+	public void operateCalendar(String[] arr) {
 		DataAnalyzer<StaticCalendarBean> st = new CalendarAnalyzer();
 		List<StaticCalendarBean> ssb = new ArrayList<>();
 		String ret = null;
@@ -176,17 +197,21 @@ public class StaticGISOperation {
 				ssb.add(result);
 			}
 		}
+		if (arr.length != ssb.size()) {
+			int sub = arr.length - ssb.size();
+			logger.error("There are some dirty data in calendar, number is: "+sub);
+		}
 		calendarMapper.deleteAll();
 		//Avoid to big list size
 		List<List<StaticCalendarBean>> subs = this.partitionList(ssb);
 		for(List<StaticCalendarBean> sub: subs) {
 			calendarMapper.batchAddStaticCalendar(sub);
 		}
-		ret = JSON.toJSONString(ssb);
-		return ret;
+//		ret = JSON.toJSONString(ssb);
+		return;
 	}
 	
-	public String operateCalendarDates(String[] arr) {
+	public void operateCalendarDates(String[] arr) {
 		DataAnalyzer<StaticCalendarDatesBean> st = new CalendarDatesAnalyzer();
 		List<StaticCalendarDatesBean> ssb = new ArrayList<>();
 		String ret = null;
@@ -196,14 +221,18 @@ public class StaticGISOperation {
 				ssb.add(result);
 			}
 		}
+		if (arr.length != ssb.size()) {
+			int sub = arr.length - ssb.size();
+			logger.error("There are some dirty data in calendar dates, number is: "+sub);
+		}
 		calDatesMapper.deleteAll();
 		//Avoid to big list size
 		List<List<StaticCalendarDatesBean>> subs = this.partitionList(ssb);
 		for(List<StaticCalendarDatesBean> sub: subs) {
 			calDatesMapper.batchAddStaticCalendarDates(sub);
 		}
-		ret = JSON.toJSONString(ssb);
-		return ret;
+//		ret = JSON.toJSONString(ssb);
+		return;
 	}
 	
 	/**
@@ -216,11 +245,15 @@ public class StaticGISOperation {
 			logger.error("Empty list to partition");
 			return null;
 		}
-		int batchcount = 0;
-		if (origin.size() > 500) {
-			batchcount = origin.size() / 500;
-		}
-		List<List<T>> subs = ListUtils.partition(origin, batchcount);
+		int batchcount = 900;
+		List<List<T>> subs;
+		subs = ListUtils.partition(origin, batchcount);
+//		if (origin.size() > 500) {
+//			batchcount = (int)Math.ceil(origin.size() / 500);
+//			subs = ListUtils.partition(origin, batchcount);
+//		}else {
+//			subs = ListUtils.partition(origin, batchcount);
+//		}		
 		return subs;
 	}
 }

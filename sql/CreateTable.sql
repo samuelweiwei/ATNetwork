@@ -33,21 +33,20 @@ CREATE TABLE IF NOT EXISTS public.static_routes (
 );
 
 CREATE TABLE IF NOT EXISTS public.static_trips (
-    route_id VARCHAR(256) UNIQUE,
+    route_id VARCHAR(256),
     service_id VARCHAR(256),
-    route_short_name VARCHAR(128),
-    route_long_name VARCHAR(256),
-    route_desc VARCHAR(256),
-    route_type VARCHAR(128),
-    route_url VARCHAR(128),
-    route_color VARCHAR(128),
-    route_text_color VARCHAR(128),
-    route_sort_order VARCHAR(128),
-    contract_id VARCHAR(128)
+    trip_id VARCHAR(256),
+    trip_headsign VARCHAR(128),
+    trip_short_name VARCHAR(128),
+    direction_id VARCHAR(8),
+    block_id VARCHAR(128),
+    shape_id VARCHAR(256),
+    wheelchair_accessible VARCHAR(8),
+    bikes_allowed VARCHAR(8)
 );
 
 CREATE TABLE IF NOT EXISTS public.static_stop_times (
-    trip_id VARCHAR(256) UNIQUE,
+    trip_id VARCHAR(256),
     arrival_time VARCHAR(128),
     departure_time VARCHAR(128),
     stop_id VARCHAR(256),

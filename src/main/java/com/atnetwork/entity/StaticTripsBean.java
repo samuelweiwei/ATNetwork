@@ -17,7 +17,7 @@ public class StaticTripsBean {
 	private String block_id;
 	private String shape_id;
 	private String wheelchair_accessible;
-	private String bike_allowed;
+	private String bikes_allowed;
 	public String getRoute_id() {
 		return route_id;
 	}
@@ -72,11 +72,11 @@ public class StaticTripsBean {
 	public void setWheelchair_accessible(String wheelchair_accessible) {
 		this.wheelchair_accessible = wheelchair_accessible;
 	}
-	public String getBike_allowed() {
-		return bike_allowed;
+	public String getBikes_allowed() {
+		return bikes_allowed;
 	}
-	public void setBike_allowed(String bike_allowed) {
-		this.bike_allowed = bike_allowed;
+	public void setBikes_allowed(String bikes_allowed) {
+		this.bikes_allowed = bikes_allowed;
 	}
 	
 }

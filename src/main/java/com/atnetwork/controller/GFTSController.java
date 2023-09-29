@@ -26,7 +26,7 @@ public class GFTSController {
 		return "http server is alive";
 	}
 
-	@GetMapping(value="/startstatics")
+	@GetMapping(value="/downloadandupdate")
 	public ResultEntity<String> startStaticGTFSDataAcquire() {
 		String pathret = this.gtfsServ.startDownloadLatestGTFS();
 		ResultEntity<String> ret = new ResultEntity<String>();
