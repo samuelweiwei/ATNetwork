@@ -1,0 +1,12 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.UpdateRoutesOperationMapper">
+	<select id="queryUnionStopsByRouteid" parameterType="String" resultType="com.atnetwork.entity.storage.StorageUnionStopsBean">
+       select ttr.trip_id, tr.stop_id, ss.stop_name, ss.stop_desc, ss.stop_lon, ss.stop_lat, ss.start_date, ss.end_date, cast(tr.stop_sequence as integer)
+  			from public.static_trips ttr
+    		left join public.static_stop_times tr
+			left join public.static_stops ss
+  		on tr.stop_id = ss.stop_id
+  		on ttr.trip_id = tr.trip_id
+  		where ttr.route_id=#{route_id, jdbcType=VARCHAR}
+    </select>
+</mapper>

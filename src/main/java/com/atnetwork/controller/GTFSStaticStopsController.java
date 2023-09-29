@@ -47,5 +47,4 @@ public class GTFSStaticStopsController {
 		return ret;
 	}
 	
-	
 }
