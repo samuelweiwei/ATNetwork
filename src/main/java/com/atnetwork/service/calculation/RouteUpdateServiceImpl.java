@@ -19,6 +19,7 @@ import com.atnetwork.entity.StaticRoutesBean;
 import com.atnetwork.entity.storage.StorageNode;
 import com.atnetwork.entity.storage.StorageRoutes;
 import com.atnetwork.entity.storage.StorageUnionStopsBean;
+import com.atnetwork.entity.storage.StorageUnionStopsDistBean;
 import com.atnetwork.mapper.StaticRoutesMapper;
 import com.atnetwork.mapper.UpdateRoutesOperationMapper;
 
@@ -78,4 +79,43 @@ public class RouteUpdateServiceImpl implements RouteUpdateService {
 		return ret;		
 	}
 
+	@Override
+	public StorageRoutes getUnionStopsDist(String route_id) {
+		// TODO Auto-generated method stub
+		if (StringUtils.isBlank(route_id)) {
+			logger.error("Input route id is null");
+			return null;
+		}
+		List<StorageUnionStopsDistBean> ret = urom.queryUnionStopsDistByRouteid(route_id);
+		ConcurrentHashMap<String, List<StorageNode>> result = this.collectRoutesDataFromStopsDist(ret);
+		StorageRoutes fi = new StorageRoutes();
+		StaticRoutesBean srb = srm.getStaticRoutes(route_id);
+		fi.setStaticBody(srb);
+		fi.setTripUpdates(result);
+		return fi;
+	}
+	
+	private ConcurrentHashMap<String, List<StorageNode>> collectRoutesDataFromStopsDist(List<StorageUnionStopsDistBean> data) {
+		if ((data == null) || (data.size() == 0)) {
+			logger.error("Input routes for stops data is null");
+			return null;
+		}
+		ConcurrentHashMap<String, List<StorageNode>> ret = new ConcurrentHashMap<>();
+		HashSet<String> tripsVisited = new HashSet<>();
+		List<StorageNode> swap;
+		for(StorageUnionStopsDistBean susb: data) {
+			StorageNode node = new StorageNode(StorageNode.nodetype_stop);
+			node.setSusdb(susb);
+			if (tripsVisited.contains(susb.getTrip_id())) {
+				swap = ret.get(susb.getTrip_id());
+				swap.add(susb.getStop_sequence()-1, node);
+			}else {
+				swap = new LinkedList<>();
+				swap.add(susb.getStop_sequence()-1,node);
+				ret.put(susb.getTrip_id(), swap);
+				tripsVisited.add(susb.getTrip_id());
+			}
+		}
+		return ret;		
+	}
 }

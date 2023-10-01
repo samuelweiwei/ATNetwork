@@ -11,10 +11,12 @@ public class StorageNode {
 	
 	public static final String nodetype_vehicle = "vehicle";
 	public static final String nodetype_stop = "stop";
+	public static final String nodetype_stop_dist = "stop_dist";
 	
 	private String nodetype; //"vehicle", "stop"
 	private StorageUnionStopsBean susb;
 	private StorageUnionVehicleBean svb;
+	private StorageUnionStopsDistBean susdb;
 	public StorageNode(String ns) {
 		switch (ns) {
 			case nodetype_stop:
@@ -24,6 +26,10 @@ public class StorageNode {
 			case nodetype_vehicle:
 				this.nodetype = nodetype_vehicle;
 				svb = new StorageUnionVehicleBean();
+				break;
+			case nodetype_stop_dist:
+				this.nodetype = nodetype_stop_dist;
+				susdb = new StorageUnionStopsDistBean();
 				break;
 			default:
 		}
@@ -46,5 +52,13 @@ public class StorageNode {
 	}
 	public void setSvb(StorageUnionVehicleBean svb) {
 		this.svb = svb;
+	}
+
+	public StorageUnionStopsDistBean getSusdb() {
+		return susdb;
+	}
+
+	public void setSusdb(StorageUnionStopsDistBean susdb) {
+		this.susdb = susdb;
 	}
 }
