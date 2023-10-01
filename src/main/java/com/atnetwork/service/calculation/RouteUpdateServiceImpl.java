@@ -69,7 +69,7 @@ public class RouteUpdateServiceImpl implements RouteUpdateService {
 				swap = ret.get(susb.getTrip_id());
 				swap.add(susb.getStop_sequence()-1, node);
 			}else {
-				swap = new ArrayList<>();
+				swap = new LinkedList<>();
 				swap.add(susb.getStop_sequence()-1,node);
 				ret.put(susb.getTrip_id(), swap);
 				tripsVisited.add(susb.getTrip_id());
