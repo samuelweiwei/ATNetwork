@@ -28,7 +28,7 @@ public class GTFSDemoTripPlanningController {
 	@GetMapping(value="/routestest")
 	public ResultEntity<StorageRoutes> routesTest(@RequestParam(name="routeid")String routeid){
 		ResultEntity<StorageRoutes> ret = new ResultEntity<>();
-		StorageRoutes result = rus.getUnionStops(routeid);
+		StorageRoutes result = rus.getUnionStopsDist(routeid);
 		if (result != null) {
 			ret.setResult(ResultEntity.result_succeeded);
 			ret.setData(result);

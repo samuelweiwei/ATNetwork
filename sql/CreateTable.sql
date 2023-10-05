@@ -1,5 +1,3 @@
-USE postgres;
-
 CREATE TABLE IF NOT EXISTS public.static_stops (
     stop_id VARCHAR(256) UNIQUE,
     stop_code VARCHAR(256),

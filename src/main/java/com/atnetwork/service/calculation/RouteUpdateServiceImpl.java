@@ -104,7 +104,7 @@ public class RouteUpdateServiceImpl implements RouteUpdateService {
 		HashSet<String> tripsVisited = new HashSet<>();
 		List<StorageNode> swap;
 		for(StorageUnionStopsDistBean susb: data) {
-			StorageNode node = new StorageNode(StorageNode.nodetype_stop);
+			StorageNode node = new StorageNode(StorageNode.nodetype_stop_dist);
 			node.setSusdb(susb);
 			if (tripsVisited.contains(susb.getTrip_id())) {
 				swap = ret.get(susb.getTrip_id());

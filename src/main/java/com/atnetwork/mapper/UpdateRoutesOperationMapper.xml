@@ -9,9 +9,9 @@
   		on ttr.trip_id = tr.trip_id
   		where ttr.route_id=#{route_id, jdbcType=VARCHAR}
     </select>
-	<select id="queryUnionStopsDistByRouteid" parameterType="String" resultType="com.atnetwork.entity.storage.StorageUnionStopsBean">
-		select fir.trip_id, fir.stop_id, fir.shape_id, fir.stop_name, fir.stop_desc, fir.stop_lon, fir.stop_lat, fir.start_date, fir.end_date, fir.arrival_time, fir.departure_time, fir.stop_sequence, cast(sh.shape_dist_traveled as float) 
-		from (select ttr.trip_id, tr.stop_id, ttr.shape_id, ss.stop_name, ss.stop_desc, ss.stop_lon, ss.stop_lat, ss.start_date, ss.end_date, tr.arrival_time, tr.departure_time, cast(tr.stop_sequence as integer)
+	<select id="queryUnionStopsDistByRouteid" parameterType="String" resultType="com.atnetwork.entity.storage.StorageUnionStopsDistBean">
+		select fir.route_id, fir.trip_id, fir.stop_id, fir.shape_id, fir.stop_name, fir.stop_desc, fir.stop_lon, fir.stop_lat, fir.start_date, fir.end_date, fir.arrival_time, fir.departure_time, fir.stop_sequence, cast(sh.shape_dist_traveled as float) 
+		from (select ttr.route_id, ttr.trip_id, tr.stop_id, ttr.shape_id, ss.stop_name, ss.stop_desc, ss.stop_lon, ss.stop_lat, ss.start_date, ss.end_date, tr.arrival_time, tr.departure_time, cast(tr.stop_sequence as integer)
   				from public.static_trips ttr
     			left join public.static_stop_times tr
 				left join public.static_stops ss
