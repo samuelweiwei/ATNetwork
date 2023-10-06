@@ -19,7 +19,7 @@ public class StoragePathNode {
 	private Double distance = 0.0;
 	private Map<StoragePathNode, Double> adjacentNodes = new HashMap<>();
 	
-	public void addDesination(StoragePathNode dest, double distance) {
+	public void addDestination(StoragePathNode dest, double distance) {
 		adjacentNodes.put(dest, distance);
 	}
 	

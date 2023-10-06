@@ -68,5 +68,43 @@ public class CalculatePathServiceDijkstraImpl implements CalculatePathService {
 			eval.setShortestPath(shortestPath);
 		}
 	}
+	
+	public static void main(String[] args) {
+		CalculatePathService dijkstra = new CalculatePathServiceDijkstraImpl();
+		StoragePathNode nodeA= new StoragePathNode("100-56c57897", "Papatoetoe Train Station");
+		StoragePathNode nodeB = new StoragePathNode("1002-adf82201", "Stop A Lower Albert");
+		StoragePathNode nodeC = new StoragePathNode("1003-ea94d2b2", "1003,Stop B Lower Albert");
+		StoragePathNode nodeD = new StoragePathNode("10036-288916d9", "Ellerslie");
+		StoragePathNode nodeE = new StoragePathNode("1004-42737000", "Stop C Lower Albert");
+		StoragePathNode nodeF = new StoragePathNode("1005-c105552e", "Stop D Lower Albert");		
+		StoragePathNode nodeG = new StoragePathNode("1006-3a3acd71", "Stop E Lower Albert");
+		
+		nodeA.addDestination(nodeB, 10);
+		nodeA.addDestination(nodeC, 15);
+
+		nodeB.addDestination(nodeD, 12);
+		nodeB.addDestination(nodeF, 15);
+
+		nodeC.addDestination(nodeE, 10);
+
+		nodeD.addDestination(nodeE, 2);
+		nodeD.addDestination(nodeF, 1);
+		nodeD.addDestination(nodeG, 4);
+
+		nodeF.addDestination(nodeE, 5);
+		nodeF.addDestination(nodeG, 2);
+		
+		StoragePathGraph graph = new StoragePathGraph();
+		graph.addNode(nodeA);
+		graph.addNode(nodeB);
+		graph.addNode(nodeC);
+		graph.addNode(nodeD);
+		graph.addNode(nodeE);
+		graph.addNode(nodeF);
+		graph.addNode(nodeG);
+
+		graph = dijkstra.calculateDestPathFromSource(graph, nodeA);
+		
+	}
 
 }
