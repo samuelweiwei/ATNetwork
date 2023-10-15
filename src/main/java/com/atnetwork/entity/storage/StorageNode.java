@@ -7,7 +7,7 @@ package com.atnetwork.entity.storage;
  * @author weiwei
  *
  */
-public class StorageNode {
+public class StorageNode implements Comparable<StorageNode> {
 	
 	public static final String nodetype_vehicle = "vehicle";
 	public static final String nodetype_stop = "stop";
@@ -60,5 +60,31 @@ public class StorageNode {
 
 	public void setSusdb(StorageUnionStopsDistBean susdb) {
 		this.susdb = susdb;
+	}
+
+	@Override
+	public int compareTo(StorageNode o) {
+		// TODO Auto-generated method stub
+		switch (this.nodetype) {
+		case nodetype_stop:
+			if (this.susb.getStop_sequence() < o.getSusb().getStop_sequence())
+				return -1;
+			else if (this.susb.getStop_sequence() == o.getSusb().getStop_sequence())
+				return 0;
+			else
+				return 1;
+		case nodetype_vehicle:
+			break;
+		case nodetype_stop_dist:
+			if (this.susdb.getStop_sequence() < o.getSusdb().getStop_sequence())
+				return -1;
+			else if (this.susdb.getStop_sequence() == o.getSusdb().getStop_sequence())
+				return 0;
+			else
+				return 1;
+		default:
+			return -1;
+		}
+		return 0;
 	}
 }

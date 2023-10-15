@@ -3,6 +3,7 @@
  */
 package com.atnetwork.entity.storage;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,17 +16,17 @@ import com.atnetwork.entity.StaticRoutesBean;
  */
 public class StorageRoutes {
 	private StaticRoutesBean staticBody;
-	private ConcurrentHashMap<String, List<StorageNode>> tripUpdates;
+	private HashMap<String, LinkedList<StorageNode>> tripUpdates;
 	public StaticRoutesBean getStaticBody() {
 		return staticBody;
 	}
 	public void setStaticBody(StaticRoutesBean staticBody) {
 		this.staticBody = staticBody;
 	}
-	public ConcurrentHashMap<String, List<StorageNode>> getTripUpdates() {
+	public HashMap<String, LinkedList<StorageNode>> getTripUpdates() {
 		return tripUpdates;
 	}
-	public void setTripUpdates(ConcurrentHashMap<String, List<StorageNode>> tripUpdates) {
+	public void setTripUpdates(HashMap<String, LinkedList<StorageNode>> tripUpdates) {
 		this.tripUpdates = tripUpdates;
 	}	
 }

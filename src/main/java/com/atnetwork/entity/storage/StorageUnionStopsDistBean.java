@@ -7,7 +7,7 @@ package com.atnetwork.entity.storage;
  * @author weiwei
  *
  */
-public class StorageUnionStopsDistBean {
+public class StorageUnionStopsDistBean{
 	private String route_id;
 	private String stop_id;
 	private String trip_id;
