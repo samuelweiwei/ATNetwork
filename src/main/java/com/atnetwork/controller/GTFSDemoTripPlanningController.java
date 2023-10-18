@@ -20,6 +20,7 @@ import com.atnetwork.entity.StaticRoutesBean;
 import com.atnetwork.entity.StaticStopsBean;
 import com.atnetwork.entity.storage.StorageNode;
 import com.atnetwork.entity.storage.StorageRoutes;
+import com.atnetwork.service.calculation.NetworkGraphService;
 import com.atnetwork.service.calculation.RouteUpdateService;
 
 /**
@@ -31,6 +32,9 @@ public class GTFSDemoTripPlanningController {
 
 	@Autowired
 	RouteUpdateService rus;
+	
+	@Autowired
+	NetworkGraphService graphServ;
 	
 	@GetMapping(value="/routestest")
 	public ResultEntity<JSONObject> routesTest(@RequestParam(name="routeid")String routeid){
@@ -48,6 +52,16 @@ public class GTFSDemoTripPlanningController {
 		ret.setRemarks("Empty dataset or query failed");
 		return ret;
 	}
+	
+	@GetMapping(value="/graphtest")
+	public ResultEntity<String> graphTest(){
+		ResultEntity<String> ret = new ResultEntity<>();
+		this.graphServ.buildVerticeWithStops();
+		ret.setResult(ResultEntity.result_succeeded);
+		ret.setRemarks("Succeed");
+		return ret;
+	}
+	
 	
 	class StorageRoutesJson implements Serializable{
 		/**

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.GraphBaseMapper">
+	<select id="queryRouteTrips" resultType="com.atnetwork.entity.jgrapht.GraphQueryTripRouteBean">
+	select bb.route_id, bb.trip_id, cast(sst.stop_sequence as integer), sst.stop_id from
+		(select sr.route_id, st.trip_id
+		from public.static_trips st
+		left join public.static_routes sr
+		on st.route_id = sr.route_id) bb
+	left join public.static_stop_times sst
+	on bb.trip_id = sst.trip_id
+	where stop_sequence is not null
+    </select>
+</mapper>
