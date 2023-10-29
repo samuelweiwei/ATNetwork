@@ -33,4 +33,9 @@ Apache Http Component version is 5.2.1
 [Auckland School Bus Stop GeoJson API Access](https://services2.arcgis.com/JkPEgZJGxhSjYOo0/arcgis/rest/services/BusService/FeatureServer/1/query?outFields=*&where=1%3D1&f=geojson)  
 
 ### Data Entity  
+Metadata of the project is acquired from [AT developer portal](https://dev-portal.at.govt.nz/)
+And it is GTFS formated with periodically updates. The portal developers are required to registered into it, so that they can apply
+for the subscription-key to call the API offered by AT officially. All APIs are REST styled and HTTPs available. No HTTP services are 
+offered, for improved security in the cyberspace. 
+The latest static GTFS are weekly updated, and it download link is: https://gtfs.at.govt.nz/gtfs.zip
 
