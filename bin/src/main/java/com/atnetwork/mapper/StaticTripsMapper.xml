@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.StaticTripsMapper">
+    <insert id="addStaticTrips" parameterType="com.atnetwork.entity.StaticTripsBean">
+        insert into static_trips(route_id,service_id,trip_id,trip_headsign,trip_short_name,
+        						direction_id,block_id,shape_id,wheelchair_accessible,
+        						bikes_allowed)
+        values(
+        	#{route_id, jdbcType=VARCHAR},
+        	#{service_id, jdbcType=VARCHAR}, 
+        	#{trip_id, jdbcType=VARCHAR},
+        	#{trip_headsign, jdbcType=VARCHAR},
+        	#{trip_short_name, jdbcType=VARCHAR},
+        	#{direction_id, jdbcType=VARCHAR},
+        	#{block_id, jdbcType=VARCHAR},
+        	#{shape_id, jdbcType=VARCHAR},
+        	#{wheelchair_accessible, jdbcType=VARCHAR},
+        	#{bikes_allowed, jdbcType=VARCHAR}
+        )
+    </insert>
+     <insert id="batchAddStaticTrips" parameterType="list">
+        insert into static_trips(route_id,service_id,trip_id,trip_headsign,trip_short_name,
+        						direction_id,block_id,shape_id,wheelchair_accessible,
+        						bikes_allowed)
+        values
+        <foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
+		(
+			#{ssb.route_id, jdbcType=VARCHAR},
+        	#{ssb.service_id, jdbcType=VARCHAR}, 
+        	#{ssb.trip_id, jdbcType=VARCHAR},
+        	#{ssb.trip_headsign, jdbcType=VARCHAR},
+        	#{ssb.trip_short_name, jdbcType=VARCHAR},
+        	#{ssb.direction_id, jdbcType=VARCHAR},
+        	#{ssb.block_id, jdbcType=VARCHAR},
+        	#{ssb.shape_id, jdbcType=VARCHAR},
+        	#{ssb.wheelchair_accessible, jdbcType=VARCHAR},
+        	#{ssb.bikes_allowed, jdbcType=VARCHAR}
+		)
+		</foreach>
+     </insert>
+    <delete id="deleteStaticTrips" parameterType="String">
+        DELETE FROM static_trips WHERE trip_id=#{trip_id}
+    </delete>
+    <delete id="deleteAll">
+        DELETE FROM static_trips
+    </delete>
+    <update id="updateStaticTrips" parameterType="com.atnetwork.entity.StaticTripsBean">
+        UPDATE static_trips set route_id = #{route_id, jdbcType=VARCHAR}, 
+			service_id = #{service_id, jdbcType=VARCHAR}, 
+        	trip_headsign = #{trip_headsign, jdbcType=VARCHAR},
+        	trip_short_name = #{trip_short_name, jdbcType=VARCHAR},
+        	direction_id = #{direction_id, jdbcType=VARCHAR},
+        	block_id = #{block_id, jdbcType=VARCHAR},
+        	shape_id = #{shape_id, jdbcType=VARCHAR},
+        	wheelchair_accessible = #{wheelchair_accessible, jdbcType=VARCHAR},
+        	bikes_allowed = #{bikes_allowed, jdbcType=VARCHAR}
+        					where trip_id=#{trip_id, jdbcType=VARCHAR}
+    </update>
+    <select id="getStaticTrips" parameterType="String" resultType="com.atnetwork.entity.StaticTripsBean">
+        SELECT * FROM static_trips WHERE trip_id=#{trip_id}
+    </select>
+    <select id="getStaticTripsListByRoute" parameterType="String" resultType="com.atnetwork.entity.StaticTripsBean">
+        SELECT * FROM static_trips WHERE route_id=#{route_id}
+    </select>
+    <select id="getStaticTripsList" resultType="com.atnetwork.entity.StaticTripsBean">
+        SELECT * FROM static_trips
+    </select>
+</mapper>

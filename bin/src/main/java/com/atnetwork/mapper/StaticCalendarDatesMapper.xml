@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.StaticCalendarDatesMapper">
+	<insert id="addStaticCalendarDates" parameterType="com.atnetwork.entity.StaticCalendarDatesBean">
+        insert into static_calendar_dates(service_id,date,exception_type)
+        values(
+        	#{service_id, jdbcType=VARCHAR},
+        	#{date, jdbcType=VARCHAR}, 
+        	#{exception_type, jdbcType=VARCHAR}
+        )
+    </insert>
+	<insert id="batchAddStaticCalendarDates" parameterType="list">
+		insert into static_calendar_dates(service_id,date,exception_type)
+        values
+		<foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
+		(
+        	#{ssb.service_id, jdbcType=VARCHAR},
+        	#{ssb.date, jdbcType=VARCHAR}, 
+        	#{ssb.exception_type, jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+	<delete id="deleteStaticCalendarDates" parameterType="String">
+        DELETE FROM static_calendar_dates WHERE service_id=#{service_id}
+    </delete>
+	<delete id="deleteAll">
+        DELETE FROM static_calendar_dates
+    </delete>
+	<select id="getStaticCalendarDates" parameterType="String" resultType="com.atnetwork.entity.StaticCalendarDatesBean">
+        SELECT * FROM static_calendar_dates WHERE service_id=#{service_id}
+    </select>
+	<select id="getStaticCalendarDatesList" resultType="com.atnetwork.entity.StaticCalendarDatesBean">
+        SELECT * FROM static_calendar_dates
+    </select>
+</mapper>

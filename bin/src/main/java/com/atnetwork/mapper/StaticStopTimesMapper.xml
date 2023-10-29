@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.StaticStopTimesMapper">
+    <insert id="addStaticStopTimes" parameterType="com.atnetwork.entity.StaticStopTimesBean">
+        insert into static_stop_times(trip_id,arrival_time,departure_time,stop_id,
+        							stop_sequence,stop_headsign,pickup_type,
+        							drop_off_type,shape_dist_traveled,timepoint)
+        values(
+        	#{trip_id, jdbcType=VARCHAR},
+        	#{arrival_time, jdbcType=VARCHAR}, 
+        	#{departure_time, jdbcType=VARCHAR},
+        	#{stop_id, jdbcType=VARCHAR},
+        	#{stop_sequence, jdbcType=VARCHAR},
+        	#{stop_headsign, jdbcType=VARCHAR},
+        	#{pickup_type, jdbcType=VARCHAR},
+        	#{drop_off_type, jdbcType=VARCHAR},
+        	#{shape_dist_traveled, jdbcType=VARCHAR},
+        	#{timepoint, jdbcType=VARCHAR}
+        )
+    </insert>
+     <insert id="batchAddStaticStopTimes" parameterType="list">
+        insert into static_stop_times(trip_id,arrival_time,departure_time,stop_id,
+        							stop_sequence,stop_headsign,pickup_type,
+        							drop_off_type,shape_dist_traveled,timepoint)
+        values
+        <foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
+		(
+        	#{ssb.trip_id, jdbcType=VARCHAR},
+        	#{ssb.arrival_time, jdbcType=VARCHAR}, 
+        	#{ssb.departure_time, jdbcType=VARCHAR},
+        	#{ssb.stop_id, jdbcType=VARCHAR},
+        	#{ssb.stop_sequence, jdbcType=VARCHAR},
+        	#{ssb.stop_headsign, jdbcType=VARCHAR},
+        	#{ssb.pickup_type, jdbcType=VARCHAR},
+        	#{ssb.drop_off_type, jdbcType=VARCHAR},
+        	#{ssb.shape_dist_traveled, jdbcType=VARCHAR},
+        	#{ssb.timepoint, jdbcType=VARCHAR}
+		)
+		</foreach>
+     </insert>
+    <delete id="deleteStaticStopTimes" parameterType="String">
+        DELETE FROM static_stop_times WHERE stop_id=#{stop_id}
+    </delete>
+    <delete id="deleteAll">
+        DELETE FROM static_stop_times
+    </delete>
+    <update id="updateStaticStopTimes" parameterType="com.atnetwork.entity.StaticStopTimesBean">
+        UPDATE static_stop_times set 
+        	arrival_time = #{arrival_time, jdbcType=VARCHAR}, 
+        	departure_time = #{departure_time, jdbcType=VARCHAR},       	
+        	stop_sequence = #{stop_sequence, jdbcType=VARCHAR},
+        	stop_headsign = #{stop_headsign, jdbcType=VARCHAR},
+        	pickup_type = #{pickup_type, jdbcType=VARCHAR},
+        	drop_off_type = #{drop_off_type, jdbcType=VARCHAR},
+        	shape_dist_traveled = #{shape_dist_traveled, jdbcType=VARCHAR},
+        	timepoint = #{timepoint, jdbcType=VARCHAR}
+        					where tripd_id=#{trip_id, jdbcType=VARCHAR} and stop_id=#{stop_id, jdbcType=VARCHAR}
+    </update>
+    <select id="getStaticStopTimes" parameterType="String" resultType="com.atnetwork.entity.StaticStopTimesBean">
+        SELECT * FROM static_stop_times WHERE stop_id=#{stop_id}
+    </select>
+    <select id="getStaticStopTimesList" resultType="com.atnetwork.entity.StaticStopTimesBean">
+        SELECT * FROM static_stop_times
+    </select>
+</mapper>

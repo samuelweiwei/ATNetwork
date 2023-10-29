@@ -3,11 +3,15 @@
  */
 package com.atnetwork.service.calculation;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +21,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.Multigraph;
+import org.jgrapht.nio.dot.DOTExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,13 +53,17 @@ public class NetworkGraphServiceImpl implements NetworkGraphService {
 	GraphBaseMapper graphMapper;
 	
 	private DirectedMultigraph<StaticStopsBean, RelationshipEdge> graph;
+	private Map<String, StaticStopsBean> recorder;
+	
+	private String pattern = "yyyy-MM-dd-HH-mm-ss";
+	private SimpleDateFormat stf = new SimpleDateFormat(pattern);
 	
 	@Override
 	public void buildVerticeWithStops() {
 		// TODO Auto-generated method stub
 		//Build graphs with stops
 		List<StaticStopsBean> allstops = stopsMapper.getStaticStopsList();
-		Map<String, StaticStopsBean> recorder = new HashMap<>();
+		recorder = new HashMap<>();
 		graph = new DirectedMultigraph<StaticStopsBean, RelationshipEdge>(
 				null, null, false);
 		for(StaticStopsBean stop: allstops) {
@@ -107,9 +116,16 @@ public class NetworkGraphServiceImpl implements NetworkGraphService {
 	    }
 	    System.out.println("Sorted the trips list and build graph:"+graph.edgeSet().size());
 		//match the stopid with stop sequence to add edge
+	    DOTExporter<StaticStopsBean, RelationshipEdge> dotExp = new DOTExporter<>();
+	    String nowdate = stf.format(new Date());
+	    dotExp.exportGraph(graph, new File("dotExp-"+nowdate +".dot"));
+	    return;
 	    
-	    //Test part
-	    DijkstraShortestPath<StaticStopsBean, RelationshipEdge> path = new DijkstraShortestPath<>(graph);
+	}
+
+	
+	public GraphPath<StaticStopsBean, RelationshipEdge> getShortestPathDijkstra(String start, String end) {
+		DijkstraShortestPath<StaticStopsBean, RelationshipEdge> path = new DijkstraShortestPath<>(graph);
 	    StaticStopsBean a = recorder.get("7089-8ec85023");
 	    StaticStopsBean g = recorder.get("3864-d00f2924");
 	    GraphPath<StaticStopsBean, RelationshipEdge> ret = path.getPath(a, g);
@@ -125,49 +141,50 @@ public class NetworkGraphServiceImpl implements NetworkGraphService {
 
 			}
 		}
+		return ret;
 	}
-
-	@Override
-	public void buildEdgesCrossVertices() {
-		// TODO Auto-generated method stub
-		StaticStopsBean a = new StaticStopsBean();
-		a.setStop_name("a");
-		StaticStopsBean b = new StaticStopsBean();
-		b.setStop_name("b");
-		StaticStopsBean c = new StaticStopsBean();
-		c.setStop_name("c");
-		StaticStopsBean d = new StaticStopsBean();
-		d.setStop_name("d");
-		StaticStopsBean e = new StaticStopsBean();
-		e.setStop_name("e");
-		StaticStopsBean f = new StaticStopsBean();
-		f.setStop_name("f");
-		StaticStopsBean g = new StaticStopsBean();
-		g.setStop_name("g");
-		DirectedMultigraph<StaticStopsBean, DefaultEdge> graph = new DirectedMultigraph<StaticStopsBean, DefaultEdge>(
-				null, null, false);
-		graph.addVertex(a);
-		graph.addVertex(b);
-		graph.addVertex(c);
-		graph.addVertex(d);
-		graph.addVertex(e);
-		graph.addVertex(f);
-		graph.addVertex(g);
-		graph.addEdge(a, b, new DefaultEdge());
-		graph.addEdge(a, c, new DefaultEdge());
-		graph.addEdge(b, d, new DefaultEdge());
-		graph.addEdge(c, e, new DefaultEdge());
-		graph.addEdge(e, f, new DefaultEdge());
-		graph.addEdge(d, f, new DefaultEdge());
-		graph.addEdge(f, g, new DefaultEdge());
-		graph.addEdge(c, f, new DefaultEdge());
-		DijkstraShortestPath<StaticStopsBean, DefaultEdge> path = new DijkstraShortestPath<>(graph);
-		GraphPath<StaticStopsBean, DefaultEdge> ret = path.getPath(a, g);
-		List<StaticStopsBean> vertices = ret.getVertexList();
-		for(StaticStopsBean bean: vertices)
-			System.out.println(bean.getStop_name());
-		
-	}
+	
+//	@Override
+//	public void buildEdgesCrossVertices() {
+//		// TODO Auto-generated method stub
+//		StaticStopsBean a = new StaticStopsBean();
+//		a.setStop_name("a");
+//		StaticStopsBean b = new StaticStopsBean();
+//		b.setStop_name("b");
+//		StaticStopsBean c = new StaticStopsBean();
+//		c.setStop_name("c");
+//		StaticStopsBean d = new StaticStopsBean();
+//		d.setStop_name("d");
+//		StaticStopsBean e = new StaticStopsBean();
+//		e.setStop_name("e");
+//		StaticStopsBean f = new StaticStopsBean();
+//		f.setStop_name("f");
+//		StaticStopsBean g = new StaticStopsBean();
+//		g.setStop_name("g");
+//		DirectedMultigraph<StaticStopsBean, DefaultEdge> graph = new DirectedMultigraph<StaticStopsBean, DefaultEdge>(
+//				null, null, false);
+//		graph.addVertex(a);
+//		graph.addVertex(b);
+//		graph.addVertex(c);
+//		graph.addVertex(d);
+//		graph.addVertex(e);
+//		graph.addVertex(f);
+//		graph.addVertex(g);
+//		graph.addEdge(a, b, new DefaultEdge());
+//		graph.addEdge(a, c, new DefaultEdge());
+//		graph.addEdge(b, d, new DefaultEdge());
+//		graph.addEdge(c, e, new DefaultEdge());
+//		graph.addEdge(e, f, new DefaultEdge());
+//		graph.addEdge(d, f, new DefaultEdge());
+//		graph.addEdge(f, g, new DefaultEdge());
+//		graph.addEdge(c, f, new DefaultEdge());
+//		DijkstraShortestPath<StaticStopsBean, DefaultEdge> path = new DijkstraShortestPath<>(graph);
+//		GraphPath<StaticStopsBean, DefaultEdge> ret = path.getPath(a, g);
+//		List<StaticStopsBean> vertices = ret.getVertexList();
+//		for(StaticStopsBean bean: vertices)
+//			System.out.println(bean.getStop_name());
+//		
+//	}
 
 
 	/**

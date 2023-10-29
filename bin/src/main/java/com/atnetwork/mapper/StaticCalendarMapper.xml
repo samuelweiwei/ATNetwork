@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atnetwork.mapper.StaticCalendarMapper">
+	<insert id="addStaticCalendar" parameterType="com.atnetwork.entity.StaticCalendarBean">
+        insert into static_calendar(service_id,monday,tuesday,wednesday,thursday,
+        						friday,saturday,sunday,start_date,end_date)
+        values(
+        	#{service_id, jdbcType=VARCHAR},
+        	#{monday, jdbcType=VARCHAR}, 
+        	#{tuesday, jdbcType=VARCHAR},
+        	#{wednesday, jdbcType=VARCHAR},
+        	#{thursday, jdbcType=VARCHAR},
+        	#{friday, jdbcType=VARCHAR},
+        	#{saturday, jdbcType=VARCHAR},
+        	#{sunday, jdbcType=VARCHAR},
+        	#{start_date, jdbcType=VARCHAR},
+        	#{end_date, jdbcType=VARCHAR}
+        )
+    </insert>
+	<insert id="batchAddStaticCalendar" parameterType="list">
+		insert into static_calendar(service_id,monday,tuesday,wednesday,thursday,
+        						friday,saturday,sunday,start_date,end_date)
+        values
+		<foreach collection="ssblist" index="index" item="ssb" open="" close="" separator=",">
+		(
+        	#{ssb.service_id, jdbcType=VARCHAR},
+        	#{ssb.monday, jdbcType=VARCHAR}, 
+        	#{ssb.tuesday, jdbcType=VARCHAR},
+        	#{ssb.wednesday, jdbcType=VARCHAR},
+        	#{ssb.thursday, jdbcType=VARCHAR},
+        	#{ssb.friday, jdbcType=VARCHAR},
+        	#{ssb.saturday, jdbcType=VARCHAR},
+        	#{ssb.sunday, jdbcType=VARCHAR},
+        	#{ssb.start_date, jdbcType=VARCHAR},
+        	#{ssb.end_date, jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+	<delete id="deleteStaticCalendar" parameterType="String">
+        DELETE FROM static_calendar WHERE service_id=#{service_id}
+    </delete>
+	<delete id="deleteAll">
+        DELETE FROM static_calendar
+    </delete>
+	<select id="getStaticCalendar" parameterType="String" resultType="com.atnetwork.entity.StaticCalendarBean">
+        SELECT * FROM static_calendar WHERE service_id=#{service_id}
+    </select>
+	<select id="getStaticCalendarList" resultType="com.atnetwork.entity.StaticCalendarBean">
+        SELECT * FROM static_calendar
+    </select>
+</mapper>
