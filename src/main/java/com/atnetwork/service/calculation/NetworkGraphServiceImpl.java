@@ -124,24 +124,31 @@ public class NetworkGraphServiceImpl implements NetworkGraphService {
 	}
 
 	
-	public GraphPath<StaticStopsBean, RelationshipEdge> getShortestPathDijkstra(String start, String end) {
+	public String getShortestPathDijkstra(String start, String end) {
 		DijkstraShortestPath<StaticStopsBean, RelationshipEdge> path = new DijkstraShortestPath<>(graph);
-	    StaticStopsBean a = recorder.get("7089-8ec85023");
-	    StaticStopsBean g = recorder.get("3864-d00f2924");
+	    StaticStopsBean a = recorder.get(start);
+	    StaticStopsBean g = recorder.get(end);
 	    GraphPath<StaticStopsBean, RelationshipEdge> ret = path.getPath(a, g);
+	    StringBuffer sb = new StringBuffer();
 		if (path != null) {
 			List<StaticStopsBean> vertices = ret.getVertexList();
 			List<RelationshipEdge> edges = ret.getEdgeList();
 			if (edges.size() == (vertices.size() - 1)) {
 				for (int i = 0; i < vertices.size(); i++) {
-					System.out.println(vertices.get(i).getStop_name());
-					if (i < (vertices.size() - 1))
-						System.out.println(edges.get(i).getLabel());
+					sb.append("("+vertices.get(i).getStop_name());
+//					System.out.println(vertices.get(i).getStop_name());
+					if (i < (vertices.size() - 1)) {
+						sb.append(","+edges.get(i).getLabel()+"),");
+//						System.out.println(edges.get(i).getLabel());
+					}else {
+						sb.append(")");
+					}
 				}
 
 			}
 		}
-		return ret;
+		System.out.println(sb.toString());
+		return sb.toString();
 	}
 	
 //	@Override

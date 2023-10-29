@@ -14,5 +14,5 @@ import com.atnetwork.entity.jgrapht.RelationshipEdge;
  */
 public interface NetworkGraphService {
 	public void buildVerticeWithStops();
-	public GraphPath<StaticStopsBean, RelationshipEdge> getShortestPathDijkstra(String start, String end);
+	public String getShortestPathDijkstra(String start, String end);
 }
