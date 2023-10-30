@@ -103,6 +103,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>atnetwork</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
