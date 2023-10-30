@@ -12,10 +12,11 @@ Backend is based on java and springboot to facilitate the dev process.
 
 ## Get Started  
 ###Building  
-The jdk version should be above 17(include 17)
-The springboot version should be above 4.0.0
-Apache Http Component version is 5.2.1
-Maven should be included as an essential
+The jdk version should be above 17(include 17)  
+The springboot version should be above 4.0.0  
+Apache Http Component version is 5.2.1  
+Maven should be included as an essential  
+
 
 
 ###Installation  
