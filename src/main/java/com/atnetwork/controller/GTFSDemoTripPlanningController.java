@@ -57,7 +57,7 @@ public class GTFSDemoTripPlanningController {
 	public ResultEntity<String> graphTest(){
 		ResultEntity<String> ret = new ResultEntity<>();
 		this.graphServ.buildVerticeWithStops();
-		String result = this.graphServ.getShortestPathDijkstra("7089-8ec85023", "3864-d00f2924");
+		String result = this.graphServ.getShortestPathDijkstra("7089-8ec85023", "3864-d00f2924"); //"3219-bb8cdfc6"
 		if ((result != null) && (result.length() > 0)) {
 			ret.setResult(ResultEntity.result_succeeded);
 			ret.setData(result);
