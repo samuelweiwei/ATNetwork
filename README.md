@@ -73,5 +73,7 @@ Metadata of the project is acquired from [AT developer portal](https://dev-porta
 And it is GTFS formated with periodically updates. The portal developers are required to registered into it, so that they can apply
 for the subscription-key to call the API offered by AT officially. All APIs are REST styled and HTTPs available. No HTTP services are 
 offered, for improved security in the cyberspace. 
-The latest static GTFS are weekly updated, and it download link is: https://gtfs.at.govt.nz/gtfs.zip
+The latest static GTFS are weekly updated, and it download link is: https://gtfs.at.govt.nz/gtfs.zip  
+All the database create scripts are in folder "sql" of the root. Please run the scripts in an installed PostgreSQL instance.  
+
 
